@@ -1,11 +1,11 @@
 package model.domain;
 
 public class Matricula {
-    String nombre;
-    String Cmatricula;
-    String fecha;
-    String estado;
-    double Valor;
+    private String nombre;
+    private String Cmatricula;
+    private String fecha;
+    private String estado;
+    private double Valor;
 
    
     public Matricula(String nombre, String Cmatricula, String fecha, String estado, double Valor) {
