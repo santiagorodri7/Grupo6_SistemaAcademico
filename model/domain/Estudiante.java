@@ -1,24 +1,36 @@
-public class Estudiante{
-    private String nombreC;
-    private int edad ;
-    private String identificacion;
-    private String carrera;
-    public Estudiante(String nombreC, int edad, String identificacion,String carrera){
-        this.nombreC=nombreC;
-        this.edad=edad;
-        this.identificacion=identificacion;
-        this.carrera=carrera;
-    }
-    //get
-    public String getNombre(){
-        return this.nombreC;
-    }     
-    //set
-    public String setNombre(){
-        return this.nombreC;
-    } 
-    public void mostrarDatos(){
-        System.out.printIn("Nombre Estudiante: "+nombreC+" tengo "+edad+" y estudio "+carrera)
+public class Estudiante extends Persona {
+
+    private String codigo;
+    private int semestreActual;
+
+    public Estudiante() {
+        super();
     }
 
+    public Estudiante(String nombre, String apellido, String documento,
+                       String codigo, int semestreActual) {
+        super(nombre, apellido, documento);
+        this.codigo = codigo;
+        this.semestreActual = semestreActual;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public int getSemestreActual() {
+        return semestreActual;
+    }
+
+    public void setSemestreActual(int semestreActual) {
+        this.semestreActual = semestreActual;
+    }
+    
+    public String identificarRol() {
+        return "Estudiante";
+    }
 }
