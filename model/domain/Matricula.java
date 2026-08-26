@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Matricula {
+    private String nombre;
+    private String Cmatricula;
+    private String fecha;
+    private String estado;
+    private double Valor;
 
     private Estudiante estudiante;
 
