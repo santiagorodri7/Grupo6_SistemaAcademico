@@ -3,13 +3,11 @@ public class Estudiante extends Persona {
     private String codigo;
     private int semestreActual;
 
-    public Estudiante() {
-        super();
-    }
 
-    public Estudiante(String nombre, String apellido, String documento,
+
+    public Estudiante(String nombre, String correo, String documento,
                        String codigo, int semestreActual) {
-        super(nombre, apellido, documento);
+        super(nombre, correo, documento);
         this.codigo = codigo;
         this.semestreActual = semestreActual;
     }
@@ -29,7 +27,11 @@ public class Estudiante extends Persona {
     public void setSemestreActual(int semestreActual) {
         this.semestreActual = semestreActual;
     }
-    
+    @Override
+    public String datosResumen(){
+        return "a";
+    }
+    @Override
     public String identificarRol() {
         return "Estudiante";
     }
