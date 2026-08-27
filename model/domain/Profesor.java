@@ -1,17 +1,31 @@
-public class Profesor{
-    private String nombre;
-    private String materia;
-    private String identificacion;
-    private int edad;
-    public Profesor(String nombre, String materia, String identificacion, int edad){
-        this.nombre = nombre;
-        this.materia = materia;
-        this.identificacion = identificacion;
-        this.edad = edad;
+public class Profesor extends Persona{
+    private String codigo;
+    private String departamento;
+    
+    @Override
+    public String identificarRol() {
+        return "Profesor";
     }
-    public void mostrarInformacion(){
-        System.out.println("Soy el profesor " + profesor + ", doy la materia de " + materia + " y tengo " + edad + " años");
+    //el constructor  
+    public Profesor(String nombre, String correo, String identificacion, String codigo, String departamento) {
+        super(nombre, correo, identificacion);
+        this.codigo = codigo;
+        this.departamento = departamento;
     }
+    //getters y setters
+    public String getCodigo() {
+        return codigo;
+    }
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    public String getDepartamento() {
+        return departamento;
+    }
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
+    }
+  
 
 
 }
