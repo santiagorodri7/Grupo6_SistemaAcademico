@@ -40,5 +40,4 @@ public abstract class Persona implements RolAcademico {
         this.correo = correo;
     }
 
-    // public abstract String identificarRol();
 }
