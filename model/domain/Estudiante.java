@@ -1,5 +1,4 @@
 public class Estudiante extends Persona {
-
     private String codigo;
     private int semestreActual;
 
@@ -8,14 +7,14 @@ public class Estudiante extends Persona {
         return "Estudiante";
     }
 
-    public Estudiante(String nombre, String correo, String documento,
+    public Estudiante(String nombre, String correo, String identificacion,
                        String codigo, int semestreActual) {
-        super(nombre, correo, documento);
+        super(nombre, correo, identificacion);
         this.codigo = codigo;
         this.semestreActual = semestreActual;
-    }
+    } 
 
-    public String getCodigo() {
+    public String getCodigo() { 
         return codigo;
     }
 
