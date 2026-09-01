@@ -10,7 +10,7 @@ public abstract class Persona implements RolAcademico {
         this.identificacion = identificacion;
     }
 
-    public String datosPersona() {
+    public String datosResumen() {
         return "Mi identificacion es " + identificacion
                 + ", mi nombre es " + nombre
                 + " y mi correo es " + correo;
@@ -40,5 +40,5 @@ public abstract class Persona implements RolAcademico {
         this.correo = correo;
     }
 
-    public abstract String identificarRol();
+    // public abstract String identificarRol();
 }

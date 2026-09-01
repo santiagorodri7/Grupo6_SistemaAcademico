@@ -8,6 +8,9 @@ public class Matricula {
     private String estado;
     private double Valor;
 
+    
+
+
     private Estudiante estudiante;
 
     private List<Calificacion> calificaciones;
