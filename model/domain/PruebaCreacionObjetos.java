@@ -2,9 +2,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class App{
-    //Puerba de cloude
-  
+public class PruebaCreacionObjetos{
         public static void main(String[] args) {
         Profesor profe = new Profesor("P001", "Ana Gomez", "ana.gomez@uni.edu",
                 "PRF-10", "Ingenieria de Sistemas");

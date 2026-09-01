@@ -6,7 +6,12 @@ public abstract class Persona implements RolAcademico {
 
     public Persona(String nombre, String correo, String identificacion) {
         this.nombre = nombre;
-        this.correo = correo;
+        if(correo.contains("@"))
+            this.correo = correo;
+        else{
+            System.out.println("Correo no valido porfavor intente nuevamente");
+            throw new IllegalArgumentException();
+        }
         this.identificacion = identificacion;
     }
 
