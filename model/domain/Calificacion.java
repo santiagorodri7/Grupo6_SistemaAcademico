@@ -5,8 +5,7 @@ public class Calificacion {
     private double notaFinal;
     private String observaciones;
 
-    private Materia materia;//Esto asocia a calificacion con materia
-                           //creo que no lo vimos en clase 
+    private Materia materia;
     public Calificacion() {
     }
 
