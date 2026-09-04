@@ -6,13 +6,13 @@ public class Profesor extends Persona{
     public String identificarRol() {
         return "Profesor";
     }
-    //el constructor  
+   
     public Profesor(String nombre, String correo, String identificacion, String codigo, String departamento) {
         super(nombre, correo, identificacion);
         this.codigo = codigo;
         this.departamento = departamento;
     }
-    //getters y setters
+   
     public String getCodigo() {
         return codigo;
     }
