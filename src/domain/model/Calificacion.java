@@ -4,8 +4,9 @@ public class Calificacion {
     private double notaParcial2;
     private double notaFinal;
     private String observaciones;
-
     private Materia materia;
+    
+
     public Calificacion() {
     }
 
