@@ -1,34 +1,32 @@
-package src.utils;
-
-
+package utils;
 
 public class TypeValidator {
-    static InputValidator a = new InputValidator();
+    static InputValidator lector = new InputValidator();
 
     public TypeValidator() {
     }
 
     public void Mensaje(String texto) {
-        a.Mensaje(texto);
+        lector.Mensaje(texto);
     }
 
     public int leerInt(String texto) {
-        return a.leerInt(texto);
+        return lector.leerInt(texto);
     }
 
     public float leerFloat(String texto) {
-        return a.leerFloat(texto);
+        return lector.leerFloat(texto);
     }
 
     public String leerString(String texto) {
-        return a.leerString(texto);
+        return lector.leerString(texto);
     }
 
     public int leerIntEnRango(int minimo, int maximo, String texto) {
-        return a.leerEnEnteroEnRango(minimo, maximo, texto);
+        return lector.leerEnEnteroEnRango(minimo, maximo, texto);
     }
 
     public float leerFloatEnRango(float minimo, float maximo, String texto) {
-        return a.leerEnFloatEnRango(minimo, maximo, texto);
+        return lector.leerEnFloatEnRango(minimo, maximo, texto);
     }
 }

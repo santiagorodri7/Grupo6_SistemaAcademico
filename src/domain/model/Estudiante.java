@@ -1,3 +1,4 @@
+package domain.model;
 public class Estudiante extends Persona {
     private String codigo;
     private int semestreActual;

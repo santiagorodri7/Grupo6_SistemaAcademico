@@ -1,4 +1,6 @@
-import list.List;
+package domain.model;
+
+import domain.model.structures.List;
 
 public class Matricula {
 

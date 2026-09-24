@@ -1,3 +1,5 @@
+package domain.model;
+
 public abstract class Persona implements RolAcademico {
 
     private String identificacion;

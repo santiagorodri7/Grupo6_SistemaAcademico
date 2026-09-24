@@ -1,4 +1,5 @@
-package src.utils;
+package utils;
+
 import javax.swing.JOptionPane;
 
 public class InputValidator{
