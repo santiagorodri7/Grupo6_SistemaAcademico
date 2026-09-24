@@ -1,4 +1,4 @@
-public class PruebaCreacionObjetos {
+public class App {
     public static void main(String[] args) {
 
         Estudiante estudiante = new Estudiante("Ana Torres", "ana@correo.com", "1001", "E-100", 3);
