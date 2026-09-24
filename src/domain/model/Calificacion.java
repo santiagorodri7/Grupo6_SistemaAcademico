@@ -1,3 +1,5 @@
+package domain.model;
+
 public class Calificacion {
 
     private double notaParcial1;

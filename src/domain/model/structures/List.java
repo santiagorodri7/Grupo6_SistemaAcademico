@@ -1,4 +1,4 @@
-package list;
+package domain.model.structures;
 
 import java.util.NoSuchElementException;
 

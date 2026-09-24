@@ -1,3 +1,5 @@
+package domain.model;
+
 public class Materia {
     private String nombre;
     private String codigo;
