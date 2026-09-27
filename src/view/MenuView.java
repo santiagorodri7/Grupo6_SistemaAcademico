@@ -27,24 +27,12 @@ public class MenuView{
         do {
             opcion = mostrarMenuDeGestion(1);
             switch (opcion) {
-                case 1:
-                    estudianteService.crearEstudiante();
-                    break;
-                case 2:
-                    estudianteService.buscarPorIndice();
-                    break;
-                case 3:
-                    estudianteService.buscarPorCedula();
-                    break;
-                case 4:
-                    estudianteService.actualizarPorCedula();
-                    break;
-                case 5:
-                    estudianteService.eliminarPorCedula();
-                    break;
-                case 6:
-                    estudianteService.mostrarTodos();
-                    break;
+                case 1 -> estudianteService.crearEstudiante();
+                case 2 -> estudianteService.buscarPorIndice();
+                case 3 -> estudianteService.buscarPorCedula();
+                case 4 -> estudianteService.actualizarPorCedula();
+                case 5 -> estudianteService.eliminarPorCedula();
+                case 6 -> estudianteService.mostrarTodos();
             }
         } while (opcion != 0);
     }
@@ -54,24 +42,12 @@ public class MenuView{
         do {
             opcion = mostrarMenuDeGestion(2);
             switch (opcion) {
-                case 1:
-                    profesorService.crearProfesor();
-                    break;
-                case 2:
-                    profesorService.buscarPorIndice();
-                    break;
-                case 3:
-                    profesorService.buscarPorCedula();
-                    break;
-                case 4:
-                    profesorService.actualizarPorCedula();
-                    break;
-                case 5:
-                    profesorService.eliminarPorCedula();
-                    break;
-                case 6:
-                    profesorService.mostrarTodos();
-                    break;
+                case 1 -> profesorService.crearProfesor();
+                case 2 -> profesorService.buscarPorIndice();
+                case 3 -> profesorService.buscarPorCedula();
+                case 4 -> profesorService.actualizarPorCedula();
+                case 5 -> profesorService.eliminarPorCedula();
+                case 6 -> profesorService.mostrarTodos();
             }
         } while (opcion != 0);
     }
