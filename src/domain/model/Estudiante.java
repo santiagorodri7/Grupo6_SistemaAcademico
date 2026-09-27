@@ -1,7 +1,10 @@
 package domain.model;
+import domain.model.structures.List;
+
 public class Estudiante extends Persona {
     private String codigo;
     private int semestreActual;
+    private List<Matricula> matriculas;
 
     @Override
     public String identificarRol() {
@@ -13,6 +16,7 @@ public class Estudiante extends Persona {
         super(nombre, correo, identificacion);
         this.codigo = codigo;
         this.semestreActual = semestreActual;
+        this.matriculas = new List<>();
     } 
 
     public String getCodigo() { 

@@ -30,6 +30,12 @@ public class EstudianteService {
         }
     }
 
+    public void agregarMatricula(){
+        String cedula = tv.leerString("Ingrese la cedula del estudiante a buscar");
+        Estudiante estudiantePorMatricula = buscarEstudiantePorCedula(cedula);
+
+    }
+
     public void buscarPorIndice() {
         if (estudiantes.estaVacia()) {
             tv.Mensaje("No hay estudiantes registrados");
