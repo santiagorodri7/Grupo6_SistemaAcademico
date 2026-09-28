@@ -1,6 +1,7 @@
 package service;
 
 import domain.model.Estudiante;
+import domain.model.Matricula;
 import domain.model.structures.List;
 import utils.TypeValidator;
 
@@ -31,9 +32,54 @@ public class EstudianteService {
     }
 
     public void agregarMatricula(){
-        String cedula = tv.leerString("Ingrese la cedula del estudiante a buscar");
-        Estudiante estudiantePorMatricula = buscarEstudiantePorCedula(cedula);
+        String cedula = tv.leerString("Ingrese el numero de la cedula a buscar:");
+        Estudiante estudiante = buscarEstudiantePorCedula(cedula);
+        if (estudiante == null){
+            tv.Mensaje("No existe el estudiante con esa cedula");
+            return;
+        }
+        String nombreMatricula = tv.leerString("Ingrese el nombre de la matricula (ITM):");
+        String periodoAcademico = tv.leerString("Ingrese el periodo academico (2026-2):");
+        Matricula matricula = new Matricula(estudiante, periodoAcademico, nombreMatricula);
+        estudiante.getMatriculas().insertarFinal(matricula);
+    }
+    public void buscarMatriculaPorCedula() {
+        String cedula = tv.leerString("Ingrese la cedula a buscar: ");
+        Estudiante estudiante = buscarEstudiantePorCedula(cedula);
+        if (estudiante == null) {
+            tv.Mensaje("Estudiante no existente");
+            return;
+        }
 
+        if (estudiante.getMatriculas().estaVacia()) {  
+            tv.Mensaje("Este estudiante no tiene matrículas registradas");
+            return;
+        }
+
+        tv.Mensaje("Matrículas de " + estudiante.getNombre() + ":");
+
+        String rpta = "";
+        int i = 0;
+        int total = estudiante.getMatriculas().getTamanio();
+
+        while (i < total) {
+            Matricula m = estudiante.getMatriculas().buscarPorInidice(i);
+            rpta += m.getNombreMatricula()+ "\n";
+            i++;
+        }
+
+        tv.Mensaje(rpta);
+
+    }
+
+    public void eliminarMatricula(){
+         String cedula = tv.leerString("Ingrese la cedula por eliminar: ");
+         Estudiante estudiante = buscarEstudiantePorCedula(cedula);
+         if(estudiante == null){
+            tv.Mensaje("El estudiante no existe"); 
+            return; 
+         }
+         estudiante.getMatriculas().eliminarInicio();
     }
 
     public void buscarPorIndice() {

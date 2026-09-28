@@ -34,4 +34,9 @@ public class Estudiante extends Persona {
     public void setSemestreActual(int semestreActual) {
         this.semestreActual = semestreActual;
     }
+
+    public List<Matricula> getMatriculas() {
+        return matriculas;
+    }
+    
 }
