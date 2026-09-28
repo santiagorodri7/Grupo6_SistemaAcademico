@@ -33,6 +33,9 @@ public class MenuView{
                 case 4 -> estudianteService.actualizarPorCedula();
                 case 5 -> estudianteService.eliminarPorCedula();
                 case 6 -> estudianteService.mostrarTodos();
+                case 7 -> estudianteService.agregarMatricula();
+                case 8 -> estudianteService.buscarMatriculaPorCedula();
+                case 9 -> estudianteService.eliminarMatricula();
             }
         } while (opcion != 0);
     }
@@ -60,16 +63,14 @@ public class MenuView{
     public int mostrarMenuDeGestion(int opcion){
         if(opcion==1){
             String menu = generarMenuEstudiante();
-            return tv.leerIntEnRango(0, 6, menu);
+            return tv.leerIntEnRango(0, 9, menu);
         } else {
             String menu = generarMenuProfesor();
             return tv.leerIntEnRango(0, 6, menu);
         }
     }
     public String generarMenuEstudiante(){
-        return ("1. crear estudiante \n 2. buscar estudiante por indice \n 3. buscar estudiante por cedula \n 4. actualizar estudiante por cedula \n 5. eliminar estudiante por cedula \n 6. mostrar todos los estudiantes \n 0. en caso de que quiera devolverse");
-
-
+        return ("1. crear estudiante \n 2. buscar estudiante por indice \n 3. buscar estudiante por cedula \n 4. actualizar estudiante por cedula \n 5. eliminar estudiante por cedula \n 6. mostrar todos los estudiantes \n 7. agregar matricula \n 8. buscar matriculas por cedula \n 9. eliminar matricula  \n 0. en caso de que quiera devolverse");
     }
     public String generarMenuProfesor(){
         return ("1. crear profesor \n 2. buscar profesor por indice \n 3. buscar profesor por cedula \n 4. actualizar profesor por cedula \n 5. eliminar profesor por cedula \n 6. mostrar todos los profesores \n 0. en caso de que se quiera devolver");
