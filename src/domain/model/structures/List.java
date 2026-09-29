@@ -71,6 +71,15 @@ public class List<T> {
         }
         return false;
     }
+    
+    public void recorrerEImprimir(){
+        Nodo <T> actual = head;
+        while(actual !=null){
+            System.out.println(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+
+    }
 
     public void eliminarInicio() {
         if (estaVacia()) {
