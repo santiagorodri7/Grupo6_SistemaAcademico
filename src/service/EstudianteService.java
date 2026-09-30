@@ -8,55 +8,55 @@ import utils.TypeValidator;
 public class EstudianteService {
 
     private List<Estudiante> estudiantes;
-    private TypeValidator tv;
+    private TypeValidator typeValidator;
 
     public EstudianteService() {
         this.estudiantes = new List<>();
-        this.tv = new TypeValidator();
+        this.typeValidator = new TypeValidator();
     }
 
     public void crearEstudiante() {
-        String nombre = tv.leerString("Ingrese el nombre del estudiante:");
-        String correo = tv.leerString("Ingrese el correo del estudiante:");
-        String identificacion = tv.leerString("Ingrese la cedula del estudiante:");
-        String codigo = tv.leerString("Ingrese el codigo del estudiante:");
-        int semestreActual = tv.leerIntEnRango(1, 12, "Ingrese el semestre actual del estudiante (1-12):");
+        String nombre = typeValidator.leerString("Ingrese el nombre del estudiante:");
+        String correo = typeValidator.leerString("Ingrese el correo del estudiante:");
+        String identificacion = typeValidator.leerString("Ingrese la cedula del estudiante:");
+        String codigo = typeValidator.leerString("Ingrese el codigo del estudiante:");
+        int semestreActual = typeValidator.leerIntEnRango(1, 12, "Ingrese el semestre actual del estudiante (1-12):");
 
         try {
             Estudiante estudiante = new Estudiante(nombre, correo, identificacion, codigo, semestreActual);
             estudiantes.insertarFinal(estudiante);
-            tv.Mensaje("Estudiante creado con exito");
-        } catch (IllegalArgumentException ex) {
-            tv.Mensaje("No se pudo crear el estudiante, correo invalido");
+            typeValidator.Mensaje("Estudiante creado con exito");
+        } catch (Exception ex) {
+            typeValidator.Mensaje("No se pudo crear el estudiante, correo invalido");
         }
     }
 
     public void agregarMatricula(){
-        String cedula = tv.leerString("Ingrese el numero de la cedula a buscar:");
+        String cedula = typeValidator.leerString("Ingrese el numero de la cedula a buscar:");
         Estudiante estudiante = buscarEstudiantePorCedula(cedula);
         if (estudiante == null){
-            tv.Mensaje("No existe el estudiante con esa cedula");
+            typeValidator.Mensaje("No existe el estudiante con esa cedula");
             return;
         }
-        String nombreMatricula = tv.leerString("Ingrese el nombre de la matricula (ITM):");
-        String periodoAcademico = tv.leerString("Ingrese el periodo academico (2026-2):");
+        String nombreMatricula = typeValidator.leerString("Ingrese el nombre de la matricula (ITM):");
+        String periodoAcademico = typeValidator.leerString("Ingrese el periodo academico (2026-2):");
         Matricula matricula = new Matricula(estudiante, periodoAcademico, nombreMatricula);
         estudiante.getMatriculas().insertarFinal(matricula);
     }
     public void buscarMatriculaPorCedula() {
-        String cedula = tv.leerString("Ingrese la cedula a buscar: ");
+        String cedula = typeValidator.leerString("Ingrese la cedula a buscar: ");
         Estudiante estudiante = buscarEstudiantePorCedula(cedula);
         if (estudiante == null) {
-            tv.Mensaje("Estudiante no existente");
+            typeValidator.Mensaje("Estudiante no existente");
             return;
         }
 
         if (estudiante.getMatriculas().estaVacia()) {  
-            tv.Mensaje("Este estudiante no tiene matrículas registradas");
+            typeValidator.Mensaje("Este estudiante no tiene matrículas registradas");
             return;
         }
 
-        tv.Mensaje("Matrículas de " + estudiante.getNombre() + ":");
+        typeValidator.Mensaje("Matrículas de " + estudiante.getNombre() + ":");
 
         String rpta = "";
         int i = 0;
@@ -68,15 +68,15 @@ public class EstudianteService {
             i++;
         }
 
-        tv.Mensaje(rpta);
+        typeValidator.Mensaje(rpta);
 
     }
 
     public void eliminarMatricula(){
-         String cedula = tv.leerString("Ingrese la cedula por eliminar: ");
+         String cedula = typeValidator.leerString("Ingrese la cedula por eliminar: ");
          Estudiante estudiante = buscarEstudiantePorCedula(cedula);
          if(estudiante == null){
-            tv.Mensaje("El estudiante no existe"); 
+            typeValidator.Mensaje("El estudiante no existe"); 
             return; 
          }
          estudiante.getMatriculas().eliminarInicio();
@@ -84,12 +84,12 @@ public class EstudianteService {
 
     public void buscarPorIndice() {
         if (estudiantes.estaVacia()) {
-            tv.Mensaje("No hay estudiantes registrados");
+            typeValidator.Mensaje("No hay estudiantes registrados");
             return;
         }
-        int indice = tv.leerIntEnRango(0, estudiantes.getTamanio() - 1, "Ingrese el indice del estudiante:");
+        int indice = typeValidator.leerIntEnRango(0, estudiantes.getTamanio() - 1, "Ingrese el indice del estudiante:");
         Estudiante estudiante = estudiantes.buscarPorInidice(indice);
-        tv.Mensaje(estudiante.datosResumen());
+        typeValidator.Mensaje(estudiante.datosResumen());
     }
 
     private Estudiante buscarEstudiantePorCedula(String cedula) {
@@ -103,48 +103,48 @@ public class EstudianteService {
     }
 
     public void buscarPorCedula() {
-        String cedula = tv.leerString("Ingrese la cedula del estudiante a buscar:");
+        String cedula = typeValidator.leerString("Ingrese la cedula del estudiante a buscar:");
         Estudiante estudiante = buscarEstudiantePorCedula(cedula);
         if (estudiante == null) {
-            tv.Mensaje("No se encontro un estudiante con esa cedula");
+            typeValidator.Mensaje("No se encontro un estudiante con esa cedula");
         } else {
-            tv.Mensaje(estudiante.datosResumen());
+            typeValidator.Mensaje(estudiante.datosResumen());
         }
     }
 
     public void actualizarPorCedula() {
-        String cedula = tv.leerString("Ingrese la cedula del estudiante a actualizar:");
+        String cedula = typeValidator.leerString("Ingrese la cedula del estudiante a actualizar:");
         Estudiante estudiante = buscarEstudiantePorCedula(cedula);
         if (estudiante == null) {
-            tv.Mensaje("No se encontro un estudiante con esa cedula");
+            typeValidator.Mensaje("No se encontro un estudiante con esa cedula");
             return;
         }
-        String nombre = tv.leerString("Ingrese el nuevo nombre:");
-        String correo = tv.leerString("Ingrese el nuevo correo:");
-        String codigo = tv.leerString("Ingrese el nuevo codigo:");
-        int semestreActual = tv.leerIntEnRango(1, 12, "Ingrese el nuevo semestre actual (1-12):");
+        String nombre = typeValidator.leerString("Ingrese el nuevo nombre:");
+        String correo = typeValidator.leerString("Ingrese el nuevo correo:");
+        String codigo = typeValidator.leerString("Ingrese el nuevo codigo:");
+        int semestreActual = typeValidator.leerIntEnRango(1, 12, "Ingrese el nuevo semestre actual (1-12):");
 
         estudiante.setNombre(nombre);
         estudiante.setCorreo(correo);
         estudiante.setCodigo(codigo);
         estudiante.setSemestreActual(semestreActual);
-        tv.Mensaje("Estudiante actualizado con exito");
+        typeValidator.Mensaje("Estudiante actualizado con exito");
     }
 
     public void eliminarPorCedula() {
-        String cedula = tv.leerString("Ingrese la cedula del estudiante a eliminar:");
+        String cedula = typeValidator.leerString("Ingrese la cedula del estudiante a eliminar:");
         Estudiante estudiante = buscarEstudiantePorCedula(cedula);
         if (estudiante == null) {
-            tv.Mensaje("No se encontro un estudiante con esa cedula");
+            typeValidator.Mensaje("No se encontro un estudiante con esa cedula");
             return;
         }
         estudiantes.eliminarPorValor(estudiante);
-        tv.Mensaje("Estudiante eliminado con exito");
+        typeValidator.Mensaje("Estudiante eliminado con exito");
     }
 
     public void mostrarTodos() {
         if (estudiantes.estaVacia()) {
-            tv.Mensaje("No hay estudiantes registrados");
+            typeValidator.Mensaje("No hay estudiantes registrados");
             return;
         }
         String listado = "";
@@ -152,6 +152,6 @@ public class EstudianteService {
             Estudiante actual = estudiantes.buscarPorInidice(i);
             listado += (i + ". " + actual.datosResumen() + "\n");
         }
-        tv.Mensaje(listado);
+        typeValidator.Mensaje(listado);
     }
 }
