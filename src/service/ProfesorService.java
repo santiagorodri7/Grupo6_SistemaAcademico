@@ -7,37 +7,37 @@ import utils.TypeValidator;
 public class ProfesorService {
 
     private List<Profesor> profesores;
-    private TypeValidator tv;
+    private TypeValidator typeValidator;
 
     public ProfesorService() {
         this.profesores = new List<>();
-        this.tv = new TypeValidator();
+        this.typeValidator = new TypeValidator();
     }
 
     public void crearProfesor() {
-        String nombre = tv.leerString("Ingrese el nombre del profesor:");
-        String correo = tv.leerString("Ingrese el correo del profesor:");
-        String identificacion = tv.leerString("Ingrese la cedula del profesor:");
-        String codigo = tv.leerString("Ingrese el codigo del profesor:");
-        String departamento = tv.leerString("Ingrese el departamento del profesor:");
+        String nombre = typeValidator.leerString("Ingrese el nombre del profesor:");
+        String correo = typeValidator.leerString("Ingrese el correo del profesor:");
+        String identificacion = typeValidator.leerString("Ingrese la cedula del profesor:");
+        String codigo = typeValidator.leerString("Ingrese el codigo del profesor:");
+        String departamento = typeValidator.leerString("Ingrese el departamento del profesor:");
 
         try {
             Profesor profesor = new Profesor(nombre, correo, identificacion, codigo, departamento);
             profesores.insertarFinal(profesor);
-            tv.Mensaje("Profesor creado con exito");
+            typeValidator.Mensaje("Profesor creado con exito");
         } catch (IllegalArgumentException ex) {
-            tv.Mensaje("No se pudo crear el profesor, correo invalido");
+            typeValidator.Mensaje("No se pudo crear el profesor, correo invalido");
         }
     }
 
     public void buscarPorIndice() {
         if (profesores.estaVacia()) {
-            tv.Mensaje("No hay profesores registrados");
+            typeValidator.Mensaje("No hay profesores registrados");
             return;
         }
-        int indice = tv.leerIntEnRango(0, profesores.getTamanio() - 1, "Ingrese el indice del profesor:");
+        int indice = typeValidator.leerIntEnRango(0, profesores.getTamanio() - 1, "Ingrese el indice del profesor:");
         Profesor profesor = profesores.buscarPorInidice(indice);
-        tv.Mensaje(profesor.datosResumen());
+        typeValidator.Mensaje(profesor.datosResumen());
     }
 
     private Profesor buscarProfesorPorCedula(String cedula) {
@@ -51,48 +51,48 @@ public class ProfesorService {
     }
 
     public void buscarPorCedula() {
-        String cedula = tv.leerString("Ingrese la cedula del profesor a buscar:");
+        String cedula = typeValidator.leerString("Ingrese la cedula del profesor a buscar:");
         Profesor profesor = buscarProfesorPorCedula(cedula);
         if (profesor == null) {
-            tv.Mensaje("No se encontro un profesor con esa cedula");
+            typeValidator.Mensaje("No se encontro un profesor con esa cedula");
         } else {
-            tv.Mensaje(profesor.datosResumen());
+            typeValidator.Mensaje(profesor.datosResumen());
         }
     }
 
     public void actualizarPorCedula() {
-        String cedula = tv.leerString("Ingrese la cedula del profesor a actualizar:");
+        String cedula = typeValidator.leerString("Ingrese la cedula del profesor a actualizar:");
         Profesor profesor = buscarProfesorPorCedula(cedula);
         if (profesor == null) {
-            tv.Mensaje("No se encontro un profesor con esa cedula");
+            typeValidator.Mensaje("No se encontro un profesor con esa cedula");
             return;
         }
-        String nombre = tv.leerString("Ingrese el nuevo nombre:");
-        String correo = tv.leerString("Ingrese el nuevo correo:");
-        String codigo = tv.leerString("Ingrese el nuevo codigo:");
-        String departamento = tv.leerString("Ingrese el nuevo departamento:");
+        String nombre = typeValidator.leerString("Ingrese el nuevo nombre:");
+        String correo = typeValidator.leerString("Ingrese el nuevo correo:");
+        String codigo = typeValidator.leerString("Ingrese el nuevo codigo:");
+        String departamento = typeValidator.leerString("Ingrese el nuevo departamento:");
 
         profesor.setNombre(nombre);
         profesor.setCorreo(correo);
         profesor.setCodigo(codigo);
         profesor.setDepartamento(departamento);
-        tv.Mensaje("Profesor actualizado con exito");
+        typeValidator.Mensaje("Profesor actualizado con exito");
     }
 
     public void eliminarPorCedula() {
-        String cedula = tv.leerString("Ingrese la cedula del profesor a eliminar:");
+        String cedula = typeValidator.leerString("Ingrese la cedula del profesor a eliminar:");
         Profesor profesor = buscarProfesorPorCedula(cedula);
         if (profesor == null) {
-            tv.Mensaje("No se encontro un profesor con esa cedula");
+            typeValidator.Mensaje("No se encontro un profesor con esa cedula");
             return;
         }
         profesores.eliminarPorValor(profesor);
-        tv.Mensaje("Profesor eliminado con exito");
+        typeValidator.Mensaje("Profesor eliminado con exito");
     }
 
     public void mostrarTodos() {
         if (profesores.estaVacia()) {
-            tv.Mensaje("No hay profesores registrados");
+            typeValidator.Mensaje("No hay profesores registrados");
             return;
         }
         String listado = "";
@@ -100,6 +100,6 @@ public class ProfesorService {
             Profesor actual = profesores.buscarPorInidice(i);
             listado += (i + ". " + actual.datosResumen() + "\n");
         }
-        tv.Mensaje(listado);
+        typeValidator.Mensaje(listado);
     }
 }
