@@ -1,7 +1,7 @@
 package service;
 
-import domain.model.Profesor;
-import domain.model.structures.List;
+import model.domain.Profesor;
+import model.domain.structures.List;
 
 public class ProfesorService {
 

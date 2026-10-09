@@ -1,7 +1,7 @@
 package service;
 
-import domain.model.Estudiante;
-import domain.model.structures.List;
+import model.domain.Estudiante;
+import model.domain.structures.List;
 
 public class EstudianteService {
 

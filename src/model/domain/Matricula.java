@@ -1,6 +1,6 @@
-package domain.model;
+package model.domain;
 
-import domain.model.structures.List;
+import model.domain.structures.List;
 
 public class Matricula {
 

@@ -1,5 +1,5 @@
-package domain.model;
-import domain.model.structures.List;
+package model.domain;
+import model.domain.structures.List;
 
 public class Estudiante extends Persona {
     private String codigo;

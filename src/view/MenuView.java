@@ -1,7 +1,7 @@
 package view;
 
-import domain.model.Estudiante;
-import domain.model.Profesor;
+import model.domain.Estudiante;
+import model.domain.Profesor;
 import service.EstudianteService;
 import service.ProfesorService;
 import utils.TypeValidator;

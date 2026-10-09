@@ -1,4 +1,4 @@
-package domain.model;
+package model.domain;
 
 public class Profesor extends Persona{
     private String codigo;

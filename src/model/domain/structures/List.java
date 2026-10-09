@@ -1,4 +1,4 @@
-package domain.model.structures;
+package model.domain.structures;
 
 import java.util.NoSuchElementException;
 
@@ -6,11 +6,7 @@ public class List<T> {
     private Nodo<T> head;
     private int tamanio;
 
-    public void Lista(){
-        head = null;
-        tamanio =0;
 
-    }
     public void insertarInicio(T dato){
         Nodo<T> nuevoNodo = new Nodo<>(dato, head);
         head = nuevoNodo;
