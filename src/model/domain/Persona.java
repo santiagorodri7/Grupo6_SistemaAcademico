@@ -1,4 +1,4 @@
-package domain.model;
+package model.domain;
 
 public abstract class Persona implements RolAcademico {
 

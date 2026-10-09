@@ -1,4 +1,4 @@
-package domain.model;
+package model.domain;
 
 public class Calificacion {
 
@@ -8,9 +8,6 @@ public class Calificacion {
     private String observaciones;
     private Materia materia;
     
-
-    public Calificacion() {
-    }
 
     public Calificacion(double notaParcial1, double notaParcial2, double notaFinal, String observaciones, Materia materia) {
         this.notaParcial1 = notaParcial1;

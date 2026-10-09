@@ -1,16 +1,12 @@
-package domain.model.structures;
+package model.domain.structures;
 
 import java.util.NoSuchElementException;
 
-public class List<T> {
+public class ListaSimple<T> {
     private Nodo<T> head;
     private int tamanio;
 
-    public void Lista(){
-        head = null;
-        tamanio =0;
 
-    }
     public void insertarInicio(T dato){
         Nodo<T> nuevoNodo = new Nodo<>(dato, head);
         head = nuevoNodo;
@@ -55,7 +51,7 @@ public class List<T> {
             throw new IndexOutOfBoundsException("Indice fuera del rango");
         } 
         Nodo<T> actual = head;
-        for(int i = 0; i<indice-1; i++){
+        for(int i = 0; i<indice; i++){
             actual = actual.getSiguiente();
         }
         return actual.getDato();

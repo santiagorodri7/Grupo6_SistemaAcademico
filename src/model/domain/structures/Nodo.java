@@ -1,4 +1,4 @@
-package domain.model.structures;
+package model.domain.structures;
 
 public class Nodo<T> {
     private T dato;

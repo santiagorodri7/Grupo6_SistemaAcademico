@@ -1,4 +1,4 @@
-package domain.model;
+package model.domain;
 
 public interface RolAcademico{
     public abstract String datosResumen();
