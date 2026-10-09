@@ -1,22 +1,22 @@
 package model.domain;
 
-import model.domain.structures.ListaSimple;
+import model.domain.structures.Pila;
 
 public class Matricula {
 
-    private ListaSimple<Calificacion> calificaciones;
+    private Pila<Calificacion> calificaciones;
     private Estudiante estudiante;
     private String periodoAcademico;
     private String nombreMatricula;
 
     public Matricula( Estudiante estudiante, String periodoAcademico, String nombreMatricula) {
-        this.calificaciones = new ListaSimple<>();
+        this.calificaciones = new Pila<>();
         this.estudiante = estudiante;
         this.periodoAcademico = periodoAcademico;
         this.nombreMatricula = nombreMatricula;
     }
 
-    public ListaSimple<Calificacion> getCalificaciones() {
+    public Pila<Calificacion> getCalificaciones() {
         return calificaciones;
     }
 

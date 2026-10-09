@@ -1,14 +1,14 @@
 package service;
 
 import model.domain.Profesor;
-import model.domain.structures.ListaSimple;
+import model.domain.structures.Pila;
 
 public class ProfesorService {
 
-    private ListaSimple<Profesor> profesores;
+    private Pila<Profesor> profesores;
 
     public ProfesorService() {
-        this.profesores = new ListaSimple<>();
+        this.profesores = new Pila<>();
     }
 
     public Profesor crearProfesor(String nombre, String correo, String identificacion, String codigo, String departamento) {

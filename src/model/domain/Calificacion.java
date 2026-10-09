@@ -7,7 +7,6 @@ public class Calificacion {
     private double notaFinal;
     private String observaciones;
     private Materia materia;
-    
 
     public Calificacion(double notaParcial1, double notaParcial2, double notaFinal, String observaciones, Materia materia) {
         this.notaParcial1 = notaParcial1;
