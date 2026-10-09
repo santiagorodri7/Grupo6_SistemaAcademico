@@ -23,10 +23,10 @@ public class CalificacionService {
     public int getTamanio() {
         return calificaciones.getTamanio();
     }
-    public Calificacion borrarUltimoProfesor(){
+    public Calificacion borrarUltimaCalificacion(){
         return calificaciones.pop();
     }
-    public Calificacion seleccionarUltimoProfesor(){
+    public Calificacion seleccionarUltimaCalificacion(){
         return calificaciones.peek();
     }
 }
