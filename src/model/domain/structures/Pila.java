@@ -8,7 +8,6 @@ public class Pila<T> {
         this.tope = null;
         this.tamanio = 0;
     }
-
     public void push(T valor){
         Nodo<T> nuevo = new Nodo<>(valor, tope);
         nuevo.setSiguiente(tope);
