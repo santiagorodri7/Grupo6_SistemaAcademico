@@ -1,7 +1,4 @@
 package model.domain.structures;
-
-import java.util.NoSuchElementException;
-
 public class Pila<T> {
     private Nodo<T> tope;
     private int tamanio;
@@ -49,16 +46,5 @@ public class Pila<T> {
     public void setTamanio(int tamanio) {
         this.tamanio = tamanio;
     }
-
-
-
-    
-
-
-
-
-
-
-
     
 }
