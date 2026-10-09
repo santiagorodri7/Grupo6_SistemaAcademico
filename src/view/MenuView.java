@@ -63,29 +63,29 @@ public class MenuView {
 
         try {
             estudianteService.crearEstudiante(nombre, correo, identificacion, codigo, semestreActual);
-            tv.Mensaje("Estudiante creado con exito");
+            tv.mensaje("Estudiante creado con exito");
         } catch (Exception ex) {
-            tv.Mensaje("No se pudo crear el estudiante, correo invalido");
+            tv.mensaje("No se pudo crear el estudiante, correo invalido");
         }
     }
 
     private void buscarEstudiantePorIndice() {
         if (estudianteService.estaVacia()) {
-            tv.Mensaje("No hay estudiantes registrados");
+            tv.mensaje("No hay estudiantes registrados");
             return;
         }
         int indice = tv.leerIntEnRango(0, estudianteService.getTamanio() - 1, "Ingrese el indice del estudiante:");
         Estudiante estudiante = estudianteService.buscarPorIndice(indice);
-        tv.Mensaje(estudiante.datosResumen());
+        tv.mensaje(estudiante.datosResumen());
     }
 
     private void buscarEstudiantePorCedula() {
         String cedula = tv.leerString("Ingrese la cedula del estudiante a buscar:");
         Estudiante estudiante = estudianteService.buscarPorCedula(cedula);
         if (estudiante == null) {
-            tv.Mensaje("No se encontro un estudiante con esa cedula");
+            tv.mensaje("No se encontro un estudiante con esa cedula");
         } else {
-            tv.Mensaje(estudiante.datosResumen());
+            tv.mensaje(estudiante.datosResumen());
         }
     }
 
@@ -93,7 +93,7 @@ public class MenuView {
         String cedula = tv.leerString("Ingrese la cedula del estudiante a actualizar:");
         Estudiante estudiante = estudianteService.buscarPorCedula(cedula);
         if (estudiante == null) {
-            tv.Mensaje("No se encontro un estudiante con esa cedula");
+            tv.mensaje("No se encontro un estudiante con esa cedula");
             return;
         }
         String nombre = tv.leerString("Ingrese el nuevo nombre:");
@@ -102,24 +102,24 @@ public class MenuView {
         int semestreActual = tv.leerIntEnRango(1, 12, "Ingrese el nuevo semestre actual (1-12):");
 
         estudianteService.actualizarEstudiante(estudiante, nombre, correo, codigo, semestreActual);
-        tv.Mensaje("Estudiante actualizado con exito");
+        tv.mensaje("Estudiante actualizado con exito");
     }
 
     private void eliminarEstudiantePorCedula() {
         String cedula = tv.leerString("Ingrese la cedula del estudiante a eliminar:");
         Estudiante estudiante = estudianteService.buscarPorCedula(cedula);
         if (estudiante == null) {
-            tv.Mensaje("No se encontro un estudiante con esa cedula");
+            tv.mensaje("No se encontro un estudiante con esa cedula");
             return;
         }
         if (estudianteService.eliminarEstudiante(estudiante)) {
-            tv.Mensaje("Estudiante eliminado con exito");
+            tv.mensaje("Estudiante eliminado con exito");
         }
     }
 
     private void listarEstudiantes() {
         if (estudianteService.estaVacia()) {
-            tv.Mensaje("No hay estudiantes registrados");
+            tv.mensaje("No hay estudiantes registrados");
             return;
         }
         String listado = "";
@@ -127,7 +127,7 @@ public class MenuView {
             Estudiante actual = estudianteService.buscarPorIndice(i);
             listado += (i + ". " + actual.datosResumen() + "\n");
         }
-        tv.Mensaje(listado);
+        tv.mensaje(listado);
     }
 
     private void crearProfesor() {
@@ -139,29 +139,29 @@ public class MenuView {
 
         try {
             profesorService.crearProfesor(nombre, correo, identificacion, codigo, departamento);
-            tv.Mensaje("Profesor creado con exito");
+            tv.mensaje("Profesor creado con exito");
         } catch (IllegalArgumentException ex) {
-            tv.Mensaje("No se pudo crear el profesor, correo invalido");
+            tv.mensaje("No se pudo crear el profesor, correo invalido");
         }
     }
 
     private void buscarProfesorPorIndice() {
         if (profesorService.estaVacia()) {
-            tv.Mensaje("No hay profesores registrados");
+            tv.mensaje("No hay profesores registrados");
             return;
         }
         int indice = tv.leerIntEnRango(0, profesorService.getTamanio() - 1, "Ingrese el indice del profesor:");
         Profesor profesor = profesorService.buscarPorIndice(indice);
-        tv.Mensaje(profesor.datosResumen());
+        tv.mensaje(profesor.datosResumen());
     }
 
     private void buscarProfesorPorCedula() {
         String cedula = tv.leerString("Ingrese la cedula del profesor a buscar:");
         Profesor profesor = profesorService.buscarPorCedula(cedula);
         if (profesor == null) {
-            tv.Mensaje("No se encontro un profesor con esa cedula");
+            tv.mensaje("No se encontro un profesor con esa cedula");
         } else {
-            tv.Mensaje(profesor.datosResumen());
+            tv.mensaje(profesor.datosResumen());
         }
     }
 
@@ -169,7 +169,7 @@ public class MenuView {
         String cedula = tv.leerString("Ingrese la cedula del profesor a actualizar:");
         Profesor profesor = profesorService.buscarPorCedula(cedula);
         if (profesor == null) {
-            tv.Mensaje("No se encontro un profesor con esa cedula");
+            tv.mensaje("No se encontro un profesor con esa cedula");
             return;
         }
         String nombre = tv.leerString("Ingrese el nuevo nombre:");
@@ -178,24 +178,24 @@ public class MenuView {
         String departamento = tv.leerString("Ingrese el nuevo departamento:");
 
         profesorService.actualizarProfesor(profesor, nombre, correo, codigo, departamento);
-        tv.Mensaje("Profesor actualizado con exito");
+        tv.mensaje("Profesor actualizado con exito");
     }
 
     private void eliminarProfesorPorCedula() {
         String cedula = tv.leerString("Ingrese la cedula del profesor a eliminar:");
         Profesor profesor = profesorService.buscarPorCedula(cedula);
         if (profesor == null) {
-            tv.Mensaje("No se encontro un profesor con esa cedula");
+            tv.mensaje("No se encontro un profesor con esa cedula");
             return;
         }
         if (profesorService.eliminarProfesor(profesor)) {
-            tv.Mensaje("Profesor eliminado con exito");
+            tv.mensaje("Profesor eliminado con exito");
         }
     }
 
     private void listarProfesores() {
         if (profesorService.estaVacia()) {
-            tv.Mensaje("No hay profesores registrados");
+            tv.mensaje("No hay profesores registrados");
             return;
         }
         String listado = "";
@@ -203,7 +203,7 @@ public class MenuView {
             Profesor actual = profesorService.buscarPorIndice(i);
             listado += (i + ". " + actual.datosResumen() + "\n");
         }
-        tv.Mensaje(listado);
+        tv.mensaje(listado);
     }
 
     public int mostrarMenuInicial() {

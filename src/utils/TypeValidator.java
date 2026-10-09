@@ -6,7 +6,7 @@ public class TypeValidator {
     public TypeValidator() {
     }
 
-    public void Mensaje(String texto) {
+    public void mensaje(String texto) {
         lector.Mensaje(texto);
     }
 
