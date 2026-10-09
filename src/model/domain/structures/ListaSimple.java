@@ -2,7 +2,7 @@ package model.domain.structures;
 
 import java.util.NoSuchElementException;
 
-public class List<T> {
+public class ListaSimple<T> {
     private Nodo<T> head;
     private int tamanio;
 
