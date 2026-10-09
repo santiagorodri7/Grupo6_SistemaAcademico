@@ -51,7 +51,7 @@ public class ListaSimple<T> {
             throw new IndexOutOfBoundsException("Indice fuera del rango");
         } 
         Nodo<T> actual = head;
-        for(int i = 0; i<indice-1; i++){
+        for(int i = 0; i<indice; i++){
             actual = actual.getSiguiente();
         }
         return actual.getDato();
