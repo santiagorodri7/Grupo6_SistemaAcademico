@@ -46,7 +46,7 @@ public class ListaSimple<T> {
         }
     }
 
-    public T buscarPorInidice(int indice){
+    public T buscarPorIndice(int indice){
         if(indice >= tamanio || indice<0){
             throw new IndexOutOfBoundsException("Indice fuera del rango");
         } 

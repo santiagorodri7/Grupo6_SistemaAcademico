@@ -26,12 +26,12 @@ public class ProfesorService {
     }
 
     public Profesor buscarPorIndice(int indice) {
-        return profesores.buscarPorInidice(indice);
+        return profesores.buscarPorIndice(indice);
     }
 
     public Profesor buscarPorCedula(String cedula) {
         for (int i = 0; i < profesores.getTamanio(); i++) {
-            Profesor actual = profesores.buscarPorInidice(i);
+            Profesor actual = profesores.buscarPorIndice(i);
             if (actual.getIdentificacion().equals(cedula)) {
                 return actual;
             }
