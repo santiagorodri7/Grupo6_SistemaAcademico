@@ -1,44 +1,29 @@
 package service;
 
 import model.domain.Estudiante;
-import model.domain.structures.ListaSimple;
+import model.domain.structures.Cola;
 
 public class EstudianteService {
 
-    private ListaSimple<Estudiante> estudiantes;
+    private Cola<Estudiante> estudiantes;
 
     public EstudianteService() {
-        this.estudiantes = new ListaSimple<>();
+        this.estudiantes = new Cola<>();
     }
 
     public Estudiante crearEstudiante(String nombre, String correo, String identificacion, String codigo, int semestreActual) {
         Estudiante estudiante = new Estudiante(nombre, correo, identificacion, codigo, semestreActual);
-        estudiantes.insertarFinal(estudiante);
+        estudiantes.enqueue(estudiante);
         return estudiante;
     }
 
     public boolean estaVacia() {
-        return estudiantes.estaVacia();
+        return estudiantes.isEmpty();
     }
 
     public int getTamanio() {
-        return estudiantes.getTamanio();
+        return estudiantes.size();
     }
-
-    public Estudiante buscarPorIndice(int indice) {
-        return estudiantes.buscarPorInidice(indice);
-    }
-
-    public Estudiante buscarPorCedula(String cedula) {
-        for (int i = 0; i < estudiantes.getTamanio(); i++) {
-            Estudiante actual = estudiantes.buscarPorInidice(i);
-            if (actual.getIdentificacion().equals(cedula)) {
-                return actual;
-            }
-        }
-        return null;
-    }
-
     public void actualizarEstudiante(Estudiante estudiante, String nombre, String correo, String codigo, int semestreActual) {
         estudiante.setNombre(nombre);
         estudiante.setCorreo(correo);
@@ -46,11 +31,7 @@ public class EstudianteService {
         estudiante.setSemestreActual(semestreActual);
     }
 
-    public boolean eliminarEstudiante(Estudiante estudiante) {
-        if (estudiante == null) {
-            return false;
-        }
-        estudiantes.eliminarPorValor(estudiante);
-        return true;
+    public Estudiante eliminarPrimerEstudiante() {
+        return estudiantes.dequeue();
     }
 }
