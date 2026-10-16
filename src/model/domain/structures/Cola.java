@@ -7,6 +7,9 @@ public class Cola<T>{
     int tamanio;
     
     public void enqueue(T dato){
+        if(dato==null){
+            throw new IllegalArgumentException();
+        }
         Nodo<T> nuevoDato = new Nodo<T>(dato, null);
         if(isEmpty()){
             frente = nuevoDato;
@@ -18,7 +21,7 @@ public class Cola<T>{
     }
     public T dequeue(){
         if(isEmpty()){
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("La cola está vacía");
         }
         T dato = frente.getDato();
         frente = frente.getSiguiente();
@@ -29,19 +32,16 @@ public class Cola<T>{
         return dato;
     }
 
-    public T frente(){
-        if (isEmpty()) {
-            throw new NoSuchElementException();            
-        }
+    public T front(){
+        if (isEmpty()) throw new NoSuchElementException("La cola está vacía");            
         return frente.getDato();
     }
 
+    public boolean isEmpty(){
+        return this.frente == null; 
+    }
 
     public int size(){
         return tamanio;
-    }
-
-    public boolean isEmpty(){
-        return frente == null; 
     }
 }
