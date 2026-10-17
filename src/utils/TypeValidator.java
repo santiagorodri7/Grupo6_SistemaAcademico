@@ -17,4 +17,8 @@ public class TypeValidator {
     public int leerIntEnRango(int minimo, int maximo, String texto) {
         return lector.leerEnEnteroEnRango(minimo, maximo, texto);
     }
+
+    public float leerFloatEnRango(float minimo, float maximo, String texto) {
+        return lector.leerEnFloatEnRango(minimo, maximo, texto);
+    }
 }

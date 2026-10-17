@@ -10,30 +10,34 @@ import service.ProfesorService;
 import utils.TypeValidator;
 
 public class MenuView {
-    TypeValidator typeValidator = new TypeValidator();
-    EstudianteService estudianteService = new EstudianteService();
-    ProfesorService profesorService = new ProfesorService();
-    CalificacionService calificacionService = new CalificacionService();
+
+    private final TypeValidator typeValidator = new TypeValidator();
+    private final EstudianteService estudianteService = new EstudianteService();
+    private final ProfesorService profesorService = new ProfesorService();
+    private final CalificacionService calificacionService = new CalificacionService();
 
     public void iniciar() {
-        int opcionInicial;
+        int opcion;
         do {
-            opcionInicial = mostrarMenuInicial();
-
-            if (opcionInicial == 1) {
-                gestionarEstudiantes();
-            } else if (opcionInicial == 2) {
-                gestionarProfesores();
-            } else if (opcionInicial == 3) {
-                gestionarCalificaciones();
+            opcion = mostrarMenuInicial();
+            switch (opcion) {
+                case 1 -> gestionarEstudiantes();
+                case 2 -> gestionarProfesores();
+                case 3 -> gestionarCalificaciones();
             }
-        } while (opcionInicial != 0);
+        } while (opcion != 0);
+    }
+
+    private int mostrarMenuInicial() {
+        String menu = " BIENVENIDO :D! \n Elija una opcion segun su necesidad \n "
+                + "1. gestionar estudiantes \n 2. gestionar profesores \n 3. gestionar calificaciones \n 0. salir";
+        return typeValidator.leerIntEnRango(0, 3, menu);
     }
 
     private void gestionarEstudiantes() {
         int opcion;
         do {
-            opcion = mostrarMenuDeGestion(1);
+            opcion = typeValidator.leerIntEnRango(0, 3, generarMenuEstudiante());
             switch (opcion) {
                 case 1 -> crearEstudiante();
                 case 2 -> eliminarPrimerEstudiante();
@@ -45,7 +49,7 @@ public class MenuView {
     private void gestionarProfesores() {
         int opcion;
         do {
-            opcion = mostrarMenuDeGestion(2);
+            opcion = typeValidator.leerIntEnRango(0, 6, generarMenuProfesor());
             switch (opcion) {
                 case 1 -> crearProfesor();
                 case 2 -> buscarProfesorPorIndice();
@@ -60,15 +64,16 @@ public class MenuView {
     private void gestionarCalificaciones() {
         int opcion;
         do {
-            opcion = mostrarMenuDeGestion(3);
+            opcion = typeValidator.leerIntEnRango(0, 4, generarMenuCalificacion());
             switch (opcion) {
-                case 1 -> crearCalificacion();
+                case 1 -> registrarCalificacion();
                 case 2 -> verUltimaCalificacion();
                 case 3 -> eliminarUltimaCalificacion();
                 case 4 -> listarCalificaciones();
             }
         } while (opcion != 0);
     }
+
 
     private void crearEstudiante() {
         String nombre = typeValidator.leerString("Ingrese el nombre del estudiante:");
@@ -101,7 +106,6 @@ public class MenuView {
         }
         typeValidator.mensaje("Cantidad de estudiantes en la cola: " + estudianteService.getTamanio());
     }
-
     private void crearProfesor() {
         String nombre = typeValidator.leerString("Ingrese el nombre del profesor:");
         String correo = typeValidator.leerString("Ingrese el correo del profesor:");
@@ -170,33 +174,59 @@ public class MenuView {
             typeValidator.mensaje("No hay profesores registrados");
             return;
         }
-        String listado = "";
+        StringBuilder listado = new StringBuilder();
         for (int i = 0; i < profesorService.getTamanio(); i++) {
             Profesor actual = profesorService.buscarPorIndice(i);
-            listado += (i + ". " + actual.datosResumen() + "\n");
+            listado.append(i).append(". ").append(actual.datosResumen()).append("\n");
         }
-        typeValidator.mensaje(listado);
+        typeValidator.mensaje(listado.toString());
     }
 
-    private void crearCalificacion() {
+    private void registrarCalificacion() {
         double notaParcial1 = leerDoubleSeguro("Ingrese la nota del parcial 1:");
         double notaParcial2 = leerDoubleSeguro("Ingrese la nota del parcial 2:");
         double notaFinal = leerDoubleSeguro("Ingrese la nota final:");
         String observaciones = typeValidator.leerString("Ingrese las observaciones:");
-        
-        
+
         String nombreMateria = typeValidator.leerString("Ingrese el nombre de la materia:");
         String codigoMateria = typeValidator.leerString("Ingrese el codigo de la materia:");
         int creditosMateria = typeValidator.leerIntEnRango(1, 10, "Ingrese los creditos de la materia (1-10):");
-        
         Materia materia = new Materia(nombreMateria, codigoMateria, creditosMateria);
 
         try {
-            calificacionService.crearCalificacion(notaParcial1, notaParcial2, notaFinal, observaciones, materia);
-            typeValidator.mensaje("Calificacion creada con exito");
-        } catch (Exception ex) {
-            typeValidator.mensaje("No se pudo crear la calificacion");
+            calificacionService.registrarCalificacion(notaParcial1, notaParcial2, notaFinal, observaciones, materia);
+            typeValidator.mensaje("Calificacion registrada con exito");
+        } catch (IllegalArgumentException ex) {
+            typeValidator.mensaje("No se pudo registrar la calificacion: " + ex.getMessage());
         }
+    }
+
+    private void verUltimaCalificacion() {
+        if (calificacionService.estaVacia()) {
+            typeValidator.mensaje("No hay calificaciones registradas");
+            return;
+        }
+        Calificacion calificacion = calificacionService.consultarUltimaCalificacion();
+        typeValidator.mensaje(calificacion.toString());
+    }
+
+    private void eliminarUltimaCalificacion() {
+        if (calificacionService.estaVacia()) {
+            typeValidator.mensaje("No hay calificaciones para eliminar");
+            return;
+        }
+        calificacionService.deshacerUltimaCalificacion();
+        typeValidator.mensaje("Ultima calificacion eliminada con exito");
+    }
+
+    private void listarCalificaciones() {
+        if (calificacionService.estaVacia()) {
+            typeValidator.mensaje("No hay calificaciones registradas");
+            return;
+        }
+        typeValidator.mensaje("Total de calificaciones: " + calificacionService.verTamanio()
+                + "\n(de la mas antigua a la mas reciente)\n\n"
+                + calificacionService.recorrerCalificaciones());
     }
 
     private double leerDoubleSeguro(String mensaje) {
@@ -210,65 +240,29 @@ public class MenuView {
         }
     }
 
-    private void verUltimaCalificacion() {
-        if (calificacionService.estaVacia()) {
-            typeValidator.mensaje("No hay calificaciones registradas");
-            return;
-        }
-        Calificacion calificacion = calificacionService.seleccionarUltimaCalificacion();
-        typeValidator.mensaje(calificacion.toString());
+
+    private String generarMenuEstudiante() {
+        return "1. crear estudiante (enqueue)\n"
+                + " 2. eliminar/atender primer estudiante (dequeue)\n"
+                + " 3. ver cantidad de estudiantes\n"
+                + " 0. en caso de que quiera devolverse";
     }
 
-    private void eliminarUltimaCalificacion() {
-        if (calificacionService.estaVacia()) {
-            typeValidator.mensaje("No hay calificaciones para eliminar");
-            return;
-        }
-        calificacionService.borrarUltimaCalificacion();
-        typeValidator.mensaje("Ultima calificacion eliminada con exito");
+    private String generarMenuProfesor() {
+        return "1. crear profesor \n"
+                + " 2. buscar profesor por indice \n"
+                + " 3. buscar profesor por cedula \n"
+                + " 4. actualizar profesor por cedula \n"
+                + " 5. eliminar profesor por cedula \n"
+                + " 6. mostrar todos los profesores \n"
+                + " 0. en caso de que se quiera devolver";
     }
 
-    private void listarCalificaciones() {
-        if (calificacionService.estaVacia()) {
-            typeValidator.mensaje("No hay calificaciones registradas");
-            return;
-        }
-        typeValidator.mensaje("Total de calificaciones en la pila: " + calificacionService.getTamanio() + 
-                            "\nUltima calificacion (cima): " + calificacionService.seleccionarUltimaCalificacion().toString());
-    }
-
-    public int mostrarMenuInicial() {
-        String mensaje = " BIENVENIDO :D! \n Elija una opcion segun su necesidad \n " +
-                "1. gestionar estudiantes \n 2. gestionar profesores \n 3. gestionar calificaciones \n 0. salir";
-        return typeValidator.leerIntEnRango(0, 3, mensaje);
-    }
-
-    public int mostrarMenuDeGestion(int opcion) {
-        switch (opcion) {
-            case 1 -> {
-                String menu = generarMenuEstudiante();
-                return typeValidator.leerIntEnRango(0, 3, menu);
-            }
-            case 2 -> {
-                String menu = generarMenuProfesor();
-                return typeValidator.leerIntEnRango(0, 6, menu);
-            }
-            default -> {
-                String menu = generarMenuCalificacion();
-                return typeValidator.leerIntEnRango(0, 4, menu);
-            }
-        }
-    }
-
-    public String generarMenuEstudiante() {
-        return ("1. crear estudiante (enqueue)\n 2. eliminar/atender primer estudiante (dequeue)\n 3. ver cantidad de estudiantes\n 0. en caso de que quiera devolverse");
-    }
-
-    public String generarMenuProfesor() {
-        return ("1. crear profesor \n 2. buscar profesor por indice \n 3. buscar profesor por cedula \n 4. actualizar profesor por cedula \n 5. eliminar profesor por cedula \n 6. mostrar todos los profesores \n 0. en caso de que se quiera devolver");
-    }
-
-    public String generarMenuCalificacion() {
-        return ("1. crear calificacion (push) \n 2. ver ultima calificacion (peek) \n 3. eliminar ultima calificacion (pop) \n 4. mostrar estado de calificaciones \n 0. en caso de que se quiera devolver");
+    private String generarMenuCalificacion() {
+        return "1. registrar calificacion  \n"
+                + " 2. ver ultima calificacion  \n"
+                + " 3. eliminar ultima calificacion \n"
+                + " 4. listar calificaciones  \n"
+                + " 0. en caso de que se quiera devolver";
     }
 }
