@@ -37,12 +37,12 @@ public class CalificacionService {
         Pila<Calificacion> auxiliar = new Pila<>();
         StringBuilder resultado = new StringBuilder();
 
-        // Paso 1: pasar todo a la auxiliar (el orden se invierte)
+  
         while (!calificaciones.isEmpty()) {
             auxiliar.push(calificaciones.pop());
         }
 
-        // Paso 2: acumular del más antiguo al más reciente y restaurar la original
+
         while (!auxiliar.isEmpty()) {
             Calificacion calificacion = auxiliar.pop();
             resultado.append(calificacion).append("\n\n");
