@@ -9,7 +9,7 @@ public class InputValidator{
    
     }
     //region System.out.println 
-    public void Mensaje(String texto){
+    public void mensaje(String texto){
         JOptionPane.showMessageDialog(null, texto);
     }
      //endregion
@@ -19,7 +19,7 @@ public class InputValidator{
             return Integer.parseInt(JOptionPane.showInputDialog(null, texto));
         }
         catch(Exception ex){
-             Mensaje("Error, tipo de dato entero no valido");
+             mensaje("Error, tipo de dato entero no valido");
              return leerInt(texto);
         }
 
@@ -31,7 +31,7 @@ public class InputValidator{
             return Float.parseFloat(JOptionPane.showInputDialog(null, texto));
         }
         catch(Exception ex){
-            Mensaje("Error, tipo de dato no valido, porfavor intente nuevamente");
+            mensaje("Error, tipo de dato no valido, porfavor intente nuevamente");
         return leerFloat(texto);
         }
     }
@@ -41,7 +41,7 @@ public String leerString(String Texto)
 
     if (Dato.isEmpty())
     {
-        Mensaje("Valor no válido, debe ser un texto diferente de vacío, reintente por favor");
+        mensaje("Valor no válido, debe ser un texto diferente de vacío, reintente por favor");
         return leerString(Texto);
     }
     else
@@ -54,7 +54,7 @@ public String leerString(String Texto)
         if(numero >= minimo  && numero <= maximo)
             return numero;
         else{
-            Mensaje("Ingrese un numero dentro del rango dado: " + minimo + " - " + maximo);
+            mensaje("Ingrese un numero dentro del rango dado: " + minimo + " - " + maximo);
             return leerEnEnteroEnRango( minimo, maximo, texto);
 
         }
@@ -65,7 +65,7 @@ public String leerString(String Texto)
         if(numero >= minimo  && numero <= maximo)
             return numero;
         else{
-            Mensaje("Ingrese un numero dentro del rango dado: " + minimo + " - " + maximo);
+            mensaje("Ingrese un numero dentro del rango dado: " + minimo + " - " + maximo);
             return leerEnFloatEnRango(minimo, maximo, texto);
 
         }

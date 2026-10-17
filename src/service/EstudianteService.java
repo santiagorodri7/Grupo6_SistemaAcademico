@@ -4,7 +4,6 @@ import java.util.NoSuchElementException;
 
 import model.domain.Estudiante;
 import model.domain.ProcesoMatricula;
-import model.domain.structures.Cola;
 import model.domain.structures.ListaSimple;
 
 public class EstudianteService {
