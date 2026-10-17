@@ -7,7 +7,7 @@ public class TypeValidator {
     }
 
     public void mensaje(String texto) {
-        lector.Mensaje(texto);
+        lector.mensaje(texto);
     }
 
     public String leerString(String texto) {
