@@ -16,7 +16,7 @@ public class MenuColaView {
         int opcion;
         do {
             mostrarOpciones();
-            opcion = inputValidator.leerEnEnteroEnRango(0, 6, "Elija una opción: ");
+            opcion = inputValidator.leerEnEnteroEnRango(0, 6, mostrarOpciones());
             switch (opcion) {
                 case 1 -> registrarLlegada();
                 case 2 -> atender();
@@ -24,19 +24,19 @@ public class MenuColaView {
                 case 4 -> verSiHayEnEspera();
                 case 5 -> contar();
                 case 6 -> listar();
-                case 0 -> System.out.println("Saliendo del menú de colas...");
-                default -> System.out.println("Opción inválida");
+                case 0 -> inputValidator.mensaje("Saliendo del menú de colas...");
+                default -> inputValidator.mensaje("Opción inválida");
             }            
         } while (opcion != 0);
     }
-    private void mostrarOpciones(){
-        System.out.println("1. Registrar llegada (enqueue)");
-        System.out.println("2. Atender al siguiente (dequeue)");
-        System.out.println("3. Ver quién sigue (front)");
-        System.out.println("4. ¿Hay estudiantes en espera? (isEmpty)");
-        System.out.println("5. Cantidad en espera (size)");
-        System.out.println("6. Listar la fila (Parte 7)");
-        System.out.println("0. Salir");
+    private String mostrarOpciones() {
+        return "1. Registrar llegada (enqueue) \n"
+            + "2. Atender al siguiente (dequeue) \n"
+            + "3. Ver quién sigue (front) \n"
+            + "4. ¿Hay estudiantes en espera? (isEmpty) \n"
+            + "5. Cantidad en espera (size) \n"
+            + "6. Listar la fila \n"
+            + "0. Salir";
     }
 
     private void registrarLlegada(){
@@ -73,9 +73,8 @@ public class MenuColaView {
     }
  
     private void listar() {
-        // TODO 6: se completa en la Parte 7, cuando exista listarEnEspera en el Service
+        inputValidator.mensaje(estudianteService.listarEnEspera());
     }
-
     private String textoEstudiante(Estudiante e) {
     return e.getNombre() + " (" + e.getIdentificacion() + ")";
 }

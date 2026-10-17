@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import model.domain.Estudiante;
 import model.domain.ProcesoMatricula;
+import model.domain.structures.Cola;
 import model.domain.structures.ListaSimple;
 
 public class EstudianteService {
@@ -65,5 +66,40 @@ public class EstudianteService {
         estudiante.setCorreo(correo);
         estudiante.setCodigo(codigo);
         estudiante.setSemestreActual(semestreActual);
+    }
+    public Estudiante buscarPorIndice(int indice) {
+        return estudiantes.buscarPorInidice(indice);
+    }
+
+    public Estudiante buscarPorCedula(String cedula) {
+        for (int i = 0; i < estudiantes.getTamanio(); i++) {
+            Estudiante estudiante = estudiantes.buscarPorInidice(i);
+            if (estudiante.getIdentificacion().equals(cedula)) {
+                return estudiante;
+            }
+        }
+        return null;
+    }
+
+    public boolean eliminarEstudiante(Estudiante estudiante) {
+        return estudiantes.eliminarPorValor(estudiante);
+    }
+
+    public String listarEnEspera() {
+        Cola<Estudiante> fila = procesoMatricula.getFila();
+
+        if (fila.isEmpty()) {
+            return "No hay estudiantes en espera";
+        }
+        StringBuilder texto = new StringBuilder();
+        int total = fila.size();
+        for (int i = 1; i <= total; i++) {
+            Estudiante e = fila.dequeue();
+            texto.append(i).append(". ")
+                .append(e.getNombre())
+                .append(" (").append(e.getIdentificacion()).append(")\n");
+            fila.enqueue(e);
+        }
+        return texto.toString();
     }
 }
