@@ -16,6 +16,9 @@ public class EstudianteService {
         Estudiante estudiante = buscarEstudianteOFallar(identificacion);
         procesoMatricula.getFila().enqueue(estudiante);
     }
+    public boolean existeEstudiante(String identificacion) {
+        return buscarPorCedula(identificacion) != null;
+    }
     public Estudiante buscarEstudianteOFallar(String identificacion){
         for(int i=0; i < estudiantes.getTamanio();i++){
             Estudiante estudiante = estudiantes.buscarPorInidice(i);
@@ -94,11 +97,11 @@ public class EstudianteService {
         StringBuilder texto = new StringBuilder();
         int total = fila.size();
         for (int i = 1; i <= total; i++) {
-            Estudiante e = fila.dequeue();
+            Estudiante estudiante = fila.dequeue();
             texto.append(i).append(". ")
-                .append(e.getNombre())
-                .append(" (").append(e.getIdentificacion()).append(")\n");
-            fila.enqueue(e);
+                .append(estudiante.getNombre())
+                .append(" (").append(estudiante.getIdentificacion()).append(")\n");
+            fila.enqueue(estudiante);
         }
         return texto.toString();
     }

@@ -41,6 +41,10 @@ public class MenuColaView {
 
     private void registrarLlegada(){
         String identificacion = inputValidator.leerString("Identificación del estudiante: ");
+        if (!estudianteService.existeEstudiante(identificacion)) {
+            inputValidator.mensaje("No existe un estudiante con esa identificación");
+            return;
+        }
         estudianteService.registrarLlegada(identificacion);
         inputValidator.mensaje("Llegada registrada");
     }
@@ -76,6 +80,6 @@ public class MenuColaView {
         inputValidator.mensaje(estudianteService.listarEnEspera());
     }
     private String textoEstudiante(Estudiante e) {
-    return e.getNombre() + " (" + e.getIdentificacion() + ")";
-}
+        return e.getNombre() + " (" + e.getIdentificacion() + ")";
+    }
 }

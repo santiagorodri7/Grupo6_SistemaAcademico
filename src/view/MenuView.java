@@ -21,7 +21,7 @@ public class MenuView {
                 } else if (opcionInicial == 2) {
                     gestionarProfesores();
                 } else if (opcionInicial == 3) {
-                    menuColaView.iniciar();
+                    menuColaView.iniciar();                                 
                 }
         } while (opcionInicial != 0);
     }
