@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 public class Cola<T>{
     private Nodo<T> frente;
     private Nodo<T> fin;
-    int tamanio;
+    private int tamanio;
     
     public void enqueue(T dato){
         if(dato==null){
