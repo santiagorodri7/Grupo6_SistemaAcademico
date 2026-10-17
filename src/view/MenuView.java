@@ -12,6 +12,7 @@ import utils.TypeValidator;
 public class MenuView {
     TypeValidator typeValidator = new TypeValidator();
     EstudianteService estudianteService = new EstudianteService();
+    MenuColaView menuColaView = new MenuColaView(estudianteService);
     ProfesorService profesorService = new ProfesorService();
     CalificacionService calificacionService = new CalificacionService();
 
@@ -19,14 +20,13 @@ public class MenuView {
         int opcionInicial;
         do {
             opcionInicial = mostrarMenuInicial();
-
-            if (opcionInicial == 1) {
-                gestionarEstudiantes();
-            } else if (opcionInicial == 2) {
-                gestionarProfesores();
-            } else if (opcionInicial == 3) {
-                gestionarCalificaciones();
-            }
+                if (opcionInicial == 1) {
+                    gestionarEstudiantes();
+                } else if (opcionInicial == 2) {
+                    gestionarProfesores();
+                } else if (opcionInicial == 3) {
+                    menuColaView.iniciar();
+                }
         } while (opcionInicial != 0);
     }
 
@@ -239,7 +239,7 @@ public class MenuView {
 
     public int mostrarMenuInicial() {
         String mensaje = " BIENVENIDO :D! \n Elija una opcion segun su necesidad \n " +
-                "1. gestionar estudiantes \n 2. gestionar profesores \n 3. gestionar calificaciones \n 0. salir";
+            "1. gestionar estudiantes \n 2. gestionar profesores \n 3. menu de colas \n 0. salir";
         return typeValidator.leerIntEnRango(0, 3, mensaje);
     }
 
