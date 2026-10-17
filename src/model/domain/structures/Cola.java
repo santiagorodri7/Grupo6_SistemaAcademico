@@ -2,45 +2,46 @@ package model.domain.structures;
 import java.util.NoSuchElementException;
 
 public class Cola<T>{
-    private Nodo<T> front;
-    private Nodo<T> back;
-    int tamanio;
+    private Nodo<T> frente;
+    private Nodo<T> fin;
+    private int tamanio;
+    
     public void enqueue(T dato){
+        if(dato==null){
+            throw new IllegalArgumentException();
+        }
         Nodo<T> nuevoDato = new Nodo<T>(dato, null);
         if(isEmpty()){
-            front = nuevoDato;
+            frente = nuevoDato;
         } else {
-            back.setSiguiente(nuevoDato);
+            fin.setSiguiente(nuevoDato);
         }
-        back=nuevoDato;
+        fin=nuevoDato;
         tamanio++;
     }
     public T dequeue(){
         if(isEmpty()){
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("La cola está vacía");
         }
-        T dato = front.getDato();
-        front = front.getSiguiente();
-        if(front==null){
-            back=null;
+        T dato = frente.getDato();
+        frente = frente.getSiguiente();
+        if(frente==null){
+            fin=null;
         }
         tamanio--;
         return dato;
     }
 
     public T front(){
-        if (isEmpty()) {
-            throw new NoSuchElementException();            
-        }
-        return front.getDato();
-    }
-
-
-    public int size(){
-        return tamanio;
+        if (isEmpty()) throw new NoSuchElementException("La cola está vacía");            
+        return frente.getDato();
     }
 
     public boolean isEmpty(){
-        return front == null; 
+        return this.frente == null; 
+    }
+
+    public int size(){
+        return tamanio;
     }
 }

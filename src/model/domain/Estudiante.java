@@ -17,8 +17,7 @@ public class Estudiante extends Persona {
         this.codigo = codigo;
         this.semestreActual = semestreActual;
         this.matriculas = new Pila<>();
-    } 
-
+    }
     public String getCodigo() { 
         return codigo;
     }
