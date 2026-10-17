@@ -10,6 +10,8 @@ public class Pila<T> {
     }
 
     public void push(T valor) {
+        if (valor == null)
+            throw new IllegalArgumentException("No se puede apilar un valor nulo");
         Nodo<T> nuevo = new Nodo<>(valor, tope);
         tope = nuevo;
         tamanio++;
