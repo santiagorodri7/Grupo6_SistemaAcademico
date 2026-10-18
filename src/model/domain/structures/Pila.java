@@ -1,49 +1,42 @@
 package model.domain.structures;
+
 public class Pila<T> {
     private Nodo<T> tope;
     private int tamanio;
 
-    
     public Pila() {
         this.tope = null;
         this.tamanio = 0;
     }
-    public void push(T valor){
+
+    public void push(T valor) {
+        if (valor == null)
+            throw new IllegalArgumentException("No se puede apilar un valor nulo");
         Nodo<T> nuevo = new Nodo<>(valor, tope);
-        nuevo.setSiguiente(tope);
         tope = nuevo;
-        this.tamanio++;
+        tamanio++;
     }
-    public T pop(){
-        if(isEmpty())
-            throw new IllegalStateException("La pita esta vacia");
+
+    public T pop() {
+        if (isEmpty())
+            throw new IllegalStateException("La pila esta vacia");
         T valor = tope.getDato();
         tope = tope.getSiguiente();
         tamanio--;
         return valor;
     }
-    public T peek(){
-        if(isEmpty())
+
+    public T peek() {
+        if (isEmpty())
             throw new IllegalStateException("La pila esta vacia");
         return tope.getDato();
     }
-    public int size(){
+
+    public int size() {
         return tamanio;
     }
-    public boolean isEmpty(){
-        return tamanio==0;
+
+    public boolean isEmpty() {
+        return this.tope == null;
     }
-    public Nodo<T> getTope() {
-        return tope;
-    }
-    public void setTope(Nodo<T> tope) {
-        this.tope = tope;
-    }
-    public int getTamanio() {
-        return tamanio;
-    }
-    public void setTamanio(int tamanio) {
-        this.tamanio = tamanio;
-    }
-    
 }
