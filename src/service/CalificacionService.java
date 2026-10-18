@@ -1,82 +1,49 @@
 package service;
 
-import java.util.NoSuchElementException;
-
 import model.domain.Calificacion;
-import model.domain.Estudiante;
 import model.domain.Materia;
 import model.domain.Matricula;
-import model.domain.structures.ListaSimple;
 import model.domain.structures.Pila;
 
 public class CalificacionService {
 
-    private final EstudianteService estudianteService;
-    private final ListaSimple<Matricula> matriculas;
+    private final MatriculaService matriculaService;
 
-    public CalificacionService(EstudianteService estudianteService) {
-        this.estudianteService = estudianteService;
-        this.matriculas = new ListaSimple<>();
-    }
-
-    public void crearMatricula(String cedula, String periodoAcademico, String nombreMatricula) {
-        Estudiante estudiante = estudianteService.buscarEstudianteOFallar(cedula);
-        if (existeMatricula(cedula, nombreMatricula))
-            throw new IllegalArgumentException("Ya existe una matricula con ese nombre");
-        matriculas.insertarFinal(new Matricula(estudiante, periodoAcademico, nombreMatricula));
-    }
-
-    public boolean existeMatricula(String cedula, String nombreMatricula) {
-        for (int i = 0; i < matriculas.getTamanio(); i++) {
-            Matricula matricula = matriculas.buscarPorInidice(i);
-            if (matricula.getEstudiante().getIdentificacion().equals(cedula)
-                    && matricula.getNombreMatricula().equalsIgnoreCase(nombreMatricula)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Matricula buscarMatriculaOFallar(String cedula, String nombreMatricula) {
-        for (int i = 0; i < matriculas.getTamanio(); i++) {
-            Matricula matricula = matriculas.buscarPorInidice(i);
-            if (matricula.getEstudiante().getIdentificacion().equals(cedula)
-                    && matricula.getNombreMatricula().equalsIgnoreCase(nombreMatricula)) {
-                return matricula;
-            }
-        }
-        throw new NoSuchElementException("No existe una matricula con ese nombre para ese estudiante");
+    public CalificacionService(MatriculaService matriculaService) {
+        this.matriculaService = matriculaService;
     }
 
     public void registrarCalificacion(String cedula, String nombreMatricula, float notaParcial1,
-                                      float notaParcial2, float notaFinal, String observaciones, Materia materia) {
-        Matricula matricula = buscarMatriculaOFallar(cedula, nombreMatricula);
+                                      float notaParcial2, float notaFinal, String observaciones,
+                                      String nombreMateria, String codigoMateria, int creditosMateria) {
+        Matricula matricula = matriculaService.buscarMatriculaOFallar(cedula, nombreMatricula);
+        Materia materia = new Materia(nombreMateria, codigoMateria, creditosMateria);
         Calificacion calificacion = new Calificacion(notaParcial1, notaParcial2, notaFinal, observaciones, materia);
         matricula.getCalificaciones().push(calificacion);
     }
 
     public Calificacion deshacerUltimaCalificacion(String cedula, String nombreMatricula) {
-        Matricula matricula = buscarMatriculaOFallar(cedula, nombreMatricula);
+        Matricula matricula = matriculaService.buscarMatriculaOFallar(cedula, nombreMatricula);
         return matricula.getCalificaciones().pop();
     }
 
     public Calificacion consultarUltimaCalificacion(String cedula, String nombreMatricula) {
-        Matricula matricula = buscarMatriculaOFallar(cedula, nombreMatricula);
+        Matricula matricula = matriculaService.buscarMatriculaOFallar(cedula, nombreMatricula);
         return matricula.getCalificaciones().peek();
     }
 
     public boolean sinCalificacionesPorDeshacer(String cedula, String nombreMatricula) {
-        Matricula matricula = buscarMatriculaOFallar(cedula, nombreMatricula);
+        Matricula matricula = matriculaService.buscarMatriculaOFallar(cedula, nombreMatricula);
         return matricula.getCalificaciones().isEmpty();
     }
 
     public int contarCalificaciones(String cedula, String nombreMatricula) {
-        Matricula matricula = buscarMatriculaOFallar(cedula, nombreMatricula);
+        Matricula matricula = matriculaService.buscarMatriculaOFallar(cedula, nombreMatricula);
         return matricula.getCalificaciones().size();
     }
 
     public String listarCalificaciones(String cedula, String nombreMatricula) {
-        Matricula matricula = buscarMatriculaOFallar(cedula, nombreMatricula);
+        Matricula matricula = matriculaService.buscarMatriculaOFallar(cedula, nombreMatricula);
         Pila<Calificacion> original = matricula.getCalificaciones();
 
         if (original.isEmpty())

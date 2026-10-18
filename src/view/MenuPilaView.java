@@ -1,19 +1,20 @@
 package view;
 
 import model.domain.Calificacion;
-import model.domain.Materia;
 import service.CalificacionService;
+import service.MatriculaService;
 import utils.TypeValidator;
 
 public class MenuPilaView {
 
     private final TypeValidator typeValidator = new TypeValidator();
+    private final MatriculaService matriculaService;
     private final CalificacionService calificacionService;
 
-    public MenuPilaView(CalificacionService calificacionService) {
+    public MenuPilaView(MatriculaService matriculaService, CalificacionService calificacionService) {
+        this.matriculaService = matriculaService;
         this.calificacionService = calificacionService;
     }
-   
 
     public void iniciar() {
         int opcion;
@@ -41,10 +42,9 @@ public class MenuPilaView {
         String nombreMateria = typeValidator.leerString("Nombre de la materia:");
         String codigoMateria = typeValidator.leerString("Codigo de la materia:");
         int creditosMateria = typeValidator.leerIntEnRango(1, 10, "Creditos de la materia (1-10):");
-        Materia materia = new Materia(nombreMateria, codigoMateria, creditosMateria);
 
         calificacionService.registrarCalificacion(cedula, nombreMatricula, notaParcial1, notaParcial2,
-                notaFinal, observaciones, materia);
+                notaFinal, observaciones, nombreMateria, codigoMateria, creditosMateria);
         typeValidator.mensaje("Calificacion registrada con exito");
     }
 
@@ -96,21 +96,21 @@ public class MenuPilaView {
     private void crearMatricula() {
         String cedula = typeValidator.leerString("Cedula del estudiante:");
         String nombreMatricula = typeValidator.leerString("Nombre de la matricula:");
-        if (calificacionService.existeMatricula(cedula, nombreMatricula)) {
+        if (matriculaService.existeMatricula(cedula, nombreMatricula)) {
             typeValidator.mensaje("Ya existe una matricula con ese nombre");
             return;
         }
         String periodo = typeValidator.leerString("Periodo academico (ej: 2026-2):");
-        calificacionService.crearMatricula(cedula, periodo, nombreMatricula);
+        matriculaService.crearMatricula(cedula, periodo, nombreMatricula);
         typeValidator.mensaje("Matricula creada con exito");
     }
 
     private String generarMenu() {
-        return "1. Registrar calificacion \n"
-                + " 2. Deshacer ultima calificacion \n"
-                + " 3. Ver ultima calificacion \n"
-                + " 4. Hay calificaciones por deshacer? \n"
-                + " 5. Cantidad de calificaciones \n"
+        return "1. Registrar calificacion (push)\n"
+                + " 2. Deshacer ultima calificacion (pop)\n"
+                + " 3. Ver ultima calificacion (peek)\n"
+                + " 4. Hay calificaciones por deshacer? (isEmpty)\n"
+                + " 5. Cantidad de calificaciones (size)\n"
                 + " 6. Listar calificaciones\n"
                 + " 7. Crear matricula\n"
                 + " 0. Salir";

@@ -1,11 +1,8 @@
 package view;
 
-import java.util.NoSuchElementException;
-
-import model.domain.Estudiante;
-import model.domain.Profesor;
 import service.CalificacionService;
 import service.EstudianteService;
+import service.MatriculaService;
 import service.ProfesorService;
 import utils.TypeValidator;
 
@@ -14,8 +11,9 @@ public class MenuView {
     private final TypeValidator typeValidator = new TypeValidator();
     private final EstudianteService estudianteService = new EstudianteService();
     private final ProfesorService profesorService = new ProfesorService();
-    private final CalificacionService calificacionService = new CalificacionService(estudianteService);
-    private final MenuPilaView menuPilaView = new MenuPilaView(calificacionService);
+    private final MatriculaService matriculaService = new MatriculaService(estudianteService);
+    private final CalificacionService calificacionService = new CalificacionService(matriculaService);
+    private final MenuPilaView menuPilaView = new MenuPilaView(matriculaService, calificacionService);
 
     public void iniciar() {
         int opcion;
@@ -66,27 +64,23 @@ public class MenuView {
 
     private void crearEstudiante() {
         String nombre = typeValidator.leerString("Ingrese el nombre del estudiante:");
-        String correo = typeValidator.leerString("Ingrese el correo del estudiante:");
+        String correo = typeValidator.leerCorreo("Ingrese el correo del estudiante:");
         String identificacion = typeValidator.leerString("Ingrese la cedula del estudiante:");
         String codigo = typeValidator.leerString("Ingrese el codigo del estudiante:");
         int semestreActual = typeValidator.leerIntEnRango(1, 12, "Ingrese el semestre actual del estudiante (1-12):");
 
-        try {
-            estudianteService.crearEstudiante(nombre, correo, identificacion, codigo, semestreActual);
-            typeValidator.mensaje("Estudiante creado con exito");
-        } catch (Exception ex) {
-            typeValidator.mensaje("No se pudo crear el estudiante, correo invalido");
-        }
+        estudianteService.crearEstudiante(nombre, correo, identificacion, codigo, semestreActual);
+        typeValidator.mensaje("Estudiante creado con exito");
     }
 
     private void registrarLlegadaEstudiante() {
         String cedula = typeValidator.leerString("Ingrese la cedula del estudiante que llega:");
-        try {
-            estudianteService.registrarLlegada(cedula);
-            typeValidator.mensaje("Estudiante agregado a la fila de atencion");
-        } catch (NoSuchElementException ex) {
-            typeValidator.mensaje(ex.getMessage());
+        if (!estudianteService.existeEstudiante(cedula)) {
+            typeValidator.mensaje("No existe un estudiante con esa cedula");
+            return;
         }
+        estudianteService.registrarLlegada(cedula);
+        typeValidator.mensaje("Estudiante agregado a la fila de atencion");
     }
 
     private void atenderSiguienteEstudiante() {
@@ -94,8 +88,7 @@ public class MenuView {
             typeValidator.mensaje("No hay estudiantes en la fila");
             return;
         }
-        Estudiante estudiante = estudianteService.atenderSiguiente();
-        typeValidator.mensaje("Estudiante atendido:\n" + estudiante.datosResumen());
+        typeValidator.mensaje("Estudiante atendido:\n" + estudianteService.atenderSiguiente().datosResumen());
     }
 
     private void verSiguienteEstudiante() {
@@ -112,17 +105,13 @@ public class MenuView {
 
     private void crearProfesor() {
         String nombre = typeValidator.leerString("Ingrese el nombre del profesor:");
-        String correo = typeValidator.leerString("Ingrese el correo del profesor:");
+        String correo = typeValidator.leerCorreo("Ingrese el correo del profesor:");
         String identificacion = typeValidator.leerString("Ingrese la cedula del profesor:");
         String codigo = typeValidator.leerString("Ingrese el codigo del profesor:");
         String departamento = typeValidator.leerString("Ingrese el departamento del profesor:");
 
-        try {
-            profesorService.crearProfesor(nombre, correo, identificacion, codigo, departamento);
-            typeValidator.mensaje("Profesor creado con exito");
-        } catch (IllegalArgumentException ex) {
-            typeValidator.mensaje("No se pudo crear el profesor, correo invalido");
-        }
+        profesorService.crearProfesor(nombre, correo, identificacion, codigo, departamento);
+        typeValidator.mensaje("Profesor creado con exito");
     }
 
     private void buscarProfesorPorIndice() {
@@ -131,66 +120,52 @@ public class MenuView {
             return;
         }
         int indice = typeValidator.leerIntEnRango(0, profesorService.getTamanio() - 1, "Ingrese el indice del profesor:");
-        Profesor profesor = profesorService.buscarPorIndice(indice);
-        typeValidator.mensaje(profesor.datosResumen());
+        typeValidator.mensaje(profesorService.buscarPorIndice(indice).datosResumen());
     }
 
     private void buscarProfesorPorCedula() {
         String cedula = typeValidator.leerString("Ingrese la cedula del profesor a buscar:");
-        Profesor profesor = profesorService.buscarPorCedula(cedula);
-        if (profesor == null) {
+        if (!profesorService.existeProfesor(cedula)) {
             typeValidator.mensaje("No se encontro un profesor con esa cedula");
-        } else {
-            typeValidator.mensaje(profesor.datosResumen());
+            return;
         }
+        typeValidator.mensaje(profesorService.buscarPorCedula(cedula).datosResumen());
     }
 
     private void actualizarProfesorPorCedula() {
         String cedula = typeValidator.leerString("Ingrese la cedula del profesor a actualizar:");
-        Profesor profesor = profesorService.buscarPorCedula(cedula);
-        if (profesor == null) {
+        if (!profesorService.existeProfesor(cedula)) {
             typeValidator.mensaje("No se encontro un profesor con esa cedula");
             return;
         }
         String nombre = typeValidator.leerString("Ingrese el nuevo nombre:");
-        String correo = typeValidator.leerString("Ingrese el nuevo correo:");
+        String correo = typeValidator.leerCorreo("Ingrese el nuevo correo:");
         String codigo = typeValidator.leerString("Ingrese el nuevo codigo:");
         String departamento = typeValidator.leerString("Ingrese el nuevo departamento:");
 
-        profesorService.actualizarProfesor(profesor, nombre, correo, codigo, departamento);
+        profesorService.actualizarProfesor(profesorService.buscarPorCedula(cedula), nombre, correo, codigo, departamento);
         typeValidator.mensaje("Profesor actualizado con exito");
     }
 
     private void eliminarProfesorPorCedula() {
         String cedula = typeValidator.leerString("Ingrese la cedula del profesor a eliminar:");
-        Profesor profesor = profesorService.buscarPorCedula(cedula);
-        if (profesor == null) {
+        if (!profesorService.existeProfesor(cedula)) {
             typeValidator.mensaje("No se encontro un profesor con esa cedula");
             return;
         }
-        if (profesorService.eliminarProfesor(profesor)) {
-            typeValidator.mensaje("Profesor eliminado con exito");
-        }
+        profesorService.eliminarProfesor(profesorService.buscarPorCedula(cedula));
+        typeValidator.mensaje("Profesor eliminado con exito");
     }
 
     private void listarProfesores() {
-        if (profesorService.estaVacia()) {
-            typeValidator.mensaje("No hay profesores registrados");
-            return;
-        }
-        StringBuilder listado = new StringBuilder();
-        for (int i = 0; i < profesorService.getTamanio(); i++) {
-            Profesor actual = profesorService.buscarPorIndice(i);
-            listado.append(i).append(". ").append(actual.datosResumen()).append("\n");
-        }
-        typeValidator.mensaje(listado.toString());
+        typeValidator.mensaje(profesorService.listarProfesores());
     }
 
     private String generarMenuEstudiante() {
         return "1. crear estudiante \n"
-                + " 2. registrar llegada a la fila  \n"
-                + " 3. atender siguiente estudiante  \n"
-                + " 4. ver siguiente en la fila  \n"
+                + " 2. registrar llegada a la fila (enqueue) \n"
+                + " 3. atender siguiente estudiante (dequeue) \n"
+                + " 4. ver siguiente en la fila (front) \n"
                 + " 5. ver cantidad de estudiantes en espera \n"
                 + " 0. en caso de que quiera devolverse";
     }
