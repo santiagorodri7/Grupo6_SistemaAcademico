@@ -16,6 +16,9 @@ public class EstudianteService {
         Estudiante estudiante = buscarEstudianteOFallar(identificacion);
         procesoMatricula.getFila().enqueue(estudiante);
     }
+    public boolean existeEstudiante(String identificacion) {
+        return buscarPorCedula(identificacion) != null;
+    }
     public Estudiante buscarEstudianteOFallar(String identificacion){
         for(int i=0; i < estudiantes.getTamanio();i++){
             Estudiante estudiante = estudiantes.buscarPorInidice(i);
@@ -66,5 +69,40 @@ public class EstudianteService {
         estudiante.setCorreo(correo);
         estudiante.setCodigo(codigo);
         estudiante.setSemestreActual(semestreActual);
+    }
+    public Estudiante buscarPorIndice(int indice) {
+        return estudiantes.buscarPorInidice(indice);
+    }
+
+    public Estudiante buscarPorCedula(String cedula) {
+        for (int i = 0; i < estudiantes.getTamanio(); i++) {
+            Estudiante estudiante = estudiantes.buscarPorInidice(i);
+            if (estudiante.getIdentificacion().equals(cedula)) {
+                return estudiante;
+            }
+        }
+        return null;
+    }
+
+    public boolean eliminarEstudiante(Estudiante estudiante) {
+        return estudiantes.eliminarPorValor(estudiante);
+    }
+
+    public String listarEnEspera() {
+        Cola<Estudiante> fila = procesoMatricula.getFila();
+
+        if (fila.isEmpty()) {
+            return "No hay estudiantes en espera";
+        }
+        StringBuilder texto = new StringBuilder();
+        int total = fila.size();
+        for (int i = 1; i <= total; i++) {
+            Estudiante estudiante = fila.dequeue();
+            texto.append(i).append(". ")
+                .append(estudiante.getNombre())
+                .append(" (").append(estudiante.getIdentificacion()).append(")\n");
+            fila.enqueue(estudiante);
+        }
+        return texto.toString();
     }
 }

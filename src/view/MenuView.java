@@ -14,6 +14,7 @@ public class MenuView {
     private final MatriculaService matriculaService = new MatriculaService(estudianteService);
     private final CalificacionService calificacionService = new CalificacionService(matriculaService);
     private final MenuPilaView menuPilaView = new MenuPilaView(matriculaService, calificacionService);
+    private final MenuColaView menuColaView = new MenuColaView(estudianteService);
 
     public void iniciar() {
         int opcion;
@@ -23,14 +24,15 @@ public class MenuView {
                 case 1 -> gestionarEstudiantes();
                 case 2 -> gestionarProfesores();
                 case 3 -> menuPilaView.iniciar();
+                case 4 -> menuColaView.iniciar();
             }
         } while (opcion != 0);
     }
 
     private int mostrarMenuInicial() {
         String menu = " BIENVENIDO :D! \n Elija una opcion segun su necesidad \n "
-                + "1. gestionar estudiantes \n 2. gestionar profesores \n 3. gestionar calificaciones \n 0. salir";
-        return typeValidator.leerIntEnRango(0, 3, menu);
+                + "1. gestionar estudiantes \n 2. gestionar profesores \n 3. gestionar calificaciones \n 4. menu de colas \n 0. salir";
+        return typeValidator.leerIntEnRango(0, 4, menu);
     }
 
     private void gestionarEstudiantes() {
