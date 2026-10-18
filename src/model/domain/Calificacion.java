@@ -65,5 +65,14 @@ public class Calificacion {
         this.materia = materia;
     }
 
-
+    @Override
+    public String toString() {
+        return """
+                Calificacion \n :
+               - Parcial 1: """ + notaParcial1 + "\n" +
+                "- Parcial 2: " + notaParcial2 + "\n" +
+                "- Nota Final: " + notaFinal + "\n" +
+                "- Observaciones: " + observaciones + "\n" +
+                "- Materia: " + (materia != null ? materia.getNombre() : "N/A");
+    }
 }
