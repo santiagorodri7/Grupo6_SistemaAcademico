@@ -39,6 +39,21 @@ public class ProfesorService {
         return null;
     }
 
+    public boolean existeProfesor(String cedula) {
+        return buscarPorCedula(cedula) != null;
+    }
+
+    public String listarProfesores() {
+        if (profesores.estaVacia()) {
+            return "No hay profesores registrados";
+        }
+        StringBuilder listado = new StringBuilder();
+        for (int i = 0; i < profesores.getTamanio(); i++) {
+            listado.append(i).append(". ").append(profesores.buscarPorInidice(i).datosResumen()).append("\n");
+        }
+        return listado.toString();
+    }
+
     public void actualizarProfesor(Profesor profesor, String nombre, String correo, String codigo, String departamento) {
         profesor.setNombre(nombre);
         profesor.setCorreo(correo);

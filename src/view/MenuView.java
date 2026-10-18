@@ -188,9 +188,9 @@ public class MenuView {
 
     private String generarMenuEstudiante() {
         return "1. crear estudiante \n"
-                + " 2. registrar llegada a la fila (enqueue) \n"
-                + " 3. atender siguiente estudiante (dequeue) \n"
-                + " 4. ver siguiente en la fila (front) \n"
+                + " 2. registrar llegada a la fila  \n"
+                + " 3. atender siguiente estudiante  \n"
+                + " 4. ver siguiente en la fila  \n"
                 + " 5. ver cantidad de estudiantes en espera \n"
                 + " 0. en caso de que quiera devolverse";
     }
