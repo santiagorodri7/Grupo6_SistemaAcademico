@@ -14,6 +14,15 @@ public class TypeValidator {
         return lector.leerString(texto);
     }
 
+    public String leerCorreo(String texto) {
+        String correo = lector.leerString(texto);
+        while (!correo.contains("@")) {
+            lector.mensaje("Correo no valido, debe contener @");
+            correo = lector.leerString(texto);
+        }
+        return correo;
+    }
+
     public int leerIntEnRango(int minimo, int maximo, String texto) {
         return lector.leerEnEnteroEnRango(minimo, maximo, texto);
     }
