@@ -2,9 +2,7 @@ package view;
 
 import java.util.NoSuchElementException;
 
-import model.domain.Calificacion;
 import model.domain.Estudiante;
-import model.domain.Materia;
 import model.domain.Profesor;
 import service.CalificacionService;
 import service.EstudianteService;
@@ -16,8 +14,8 @@ public class MenuView {
     private final TypeValidator typeValidator = new TypeValidator();
     private final EstudianteService estudianteService = new EstudianteService();
     private final ProfesorService profesorService = new ProfesorService();
-    private final CalificacionService calificacionService = new CalificacionService();
-
+    private final CalificacionService calificacionService = new CalificacionService(estudianteService);
+    private final MenuPilaView menuPilaView = new MenuPilaView(calificacionService);
 
     public void iniciar() {
         int opcion;
@@ -26,7 +24,7 @@ public class MenuView {
             switch (opcion) {
                 case 1 -> gestionarEstudiantes();
                 case 2 -> gestionarProfesores();
-                case 3 -> gestionarCalificaciones();
+                case 3 -> menuPilaView.iniciar();
             }
         } while (opcion != 0);
     }
@@ -47,6 +45,21 @@ public class MenuView {
                 case 3 -> atenderSiguienteEstudiante();
                 case 4 -> verSiguienteEstudiante();
                 case 5 -> verCantidadEnEspera();
+            }
+        } while (opcion != 0);
+    }
+
+    private void gestionarProfesores() {
+        int opcion;
+        do {
+            opcion = typeValidator.leerIntEnRango(0, 6, generarMenuProfesor());
+            switch (opcion) {
+                case 1 -> crearProfesor();
+                case 2 -> buscarProfesorPorIndice();
+                case 3 -> buscarProfesorPorCedula();
+                case 4 -> actualizarProfesorPorCedula();
+                case 5 -> eliminarProfesorPorCedula();
+                case 6 -> listarProfesores();
             }
         } while (opcion != 0);
     }
@@ -95,22 +108,6 @@ public class MenuView {
 
     private void verCantidadEnEspera() {
         typeValidator.mensaje("Estudiantes en espera: " + estudianteService.contarEnEspera());
-    }
-
-
-    private void gestionarProfesores() {
-        int opcion;
-        do {
-            opcion = typeValidator.leerIntEnRango(0, 6, generarMenuProfesor());
-            switch (opcion) {
-                case 1 -> crearProfesor();
-                case 2 -> buscarProfesorPorIndice();
-                case 3 -> buscarProfesorPorCedula();
-                case 4 -> actualizarProfesorPorCedula();
-                case 5 -> eliminarProfesorPorCedula();
-                case 6 -> listarProfesores();
-            }
-        } while (opcion != 0);
     }
 
     private void crearProfesor() {
@@ -189,63 +186,6 @@ public class MenuView {
         typeValidator.mensaje(listado.toString());
     }
 
-    private void gestionarCalificaciones() {
-        int opcion;
-        do {
-            opcion = typeValidator.leerIntEnRango(0, 4, generarMenuCalificacion());
-            switch (opcion) {
-                case 1 -> registrarCalificacion();
-                case 2 -> verUltimaCalificacion();
-                case 3 -> eliminarUltimaCalificacion();
-                case 4 -> listarCalificaciones();
-            }
-        } while (opcion != 0);
-    }
-
-    private void registrarCalificacion() {
-        float notaParcial1 = typeValidator.leerFloatEnRango(0, 5, "Ingrese la nota del parcial 1 (0-5):");
-        float notaParcial2 = typeValidator.leerFloatEnRango(0, 5, "Ingrese la nota del parcial 2 (0-5):");
-        float notaFinal = typeValidator.leerFloatEnRango(0, 5, "Ingrese la nota final (0-5):");
-        String observaciones = typeValidator.leerString("Ingrese las observaciones:");
-
-        String nombreMateria = typeValidator.leerString("Ingrese el nombre de la materia:");
-        String codigoMateria = typeValidator.leerString("Ingrese el codigo de la materia:");
-        int creditosMateria = typeValidator.leerIntEnRango(1, 10, "Ingrese los creditos de la materia (1-10):");
-        Materia materia = new Materia(nombreMateria, codigoMateria, creditosMateria);
-
-        calificacionService.registrarCalificacion(notaParcial1, notaParcial2, notaFinal, observaciones, materia);
-        typeValidator.mensaje("Calificacion registrada con exito");
-    }
-
-    private void verUltimaCalificacion() {
-        if (calificacionService.estaVacia()) {
-            typeValidator.mensaje("No hay calificaciones registradas");
-            return;
-        }
-        Calificacion calificacion = calificacionService.consultarUltimaCalificacion();
-        typeValidator.mensaje(calificacion.toString());
-    }
-
-    private void eliminarUltimaCalificacion() {
-        if (calificacionService.estaVacia()) {
-            typeValidator.mensaje("No hay calificaciones para eliminar");
-            return;
-        }
-        calificacionService.deshacerUltimaCalificacion();
-        typeValidator.mensaje("Ultima calificacion eliminada con exito");
-    }
-
-    private void listarCalificaciones() {
-        if (calificacionService.estaVacia()) {
-            typeValidator.mensaje("No hay calificaciones registradas");
-            return;
-        }
-        typeValidator.mensaje("Total de calificaciones: " + calificacionService.verTamanio()
-                + "\n(de la mas antigua a la mas reciente)\n\n"
-                + calificacionService.recorrerCalificaciones());
-    }
-
-
     private String generarMenuEstudiante() {
         return "1. crear estudiante \n"
                 + " 2. registrar llegada a la fila (enqueue) \n"
@@ -262,14 +202,6 @@ public class MenuView {
                 + " 4. actualizar profesor por cedula \n"
                 + " 5. eliminar profesor por cedula \n"
                 + " 6. mostrar todos los profesores \n"
-                + " 0. en caso de que se quiera devolver";
-    }
-
-    private String generarMenuCalificacion() {
-        return "1. registrar calificacion  \n"
-                + " 2. ver ultima calificacion  \n"
-                + " 3. eliminar ultima calificacion  \n"
-                + " 4. listar calificaciones \n"
                 + " 0. en caso de que se quiera devolver";
     }
 }
