@@ -42,4 +42,7 @@ public class ListaDoble<T> {
         tamano--;
         return nodo.getDato();
         }
+        public int getTamanio(){
+            return tamano;
+        }
 }

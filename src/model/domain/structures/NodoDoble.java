@@ -24,6 +24,9 @@ public class NodoDoble<T> {
     public void setAnterior(NodoDoble<T> anterior) {
         this.anterior = anterior;
     }
+    public NodoDoble<T> getAnterior() {
+        return anterior;
+    }
     public NodoDoble<T> setSiguiente() {
         return anterior;
     }
