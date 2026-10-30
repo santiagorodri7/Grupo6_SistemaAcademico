@@ -1,6 +1,6 @@
 package model.domain;
 
-import model.domain.structures.Pila;
+import model.structures.Pila;
 
 public class Matricula {
 

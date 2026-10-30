@@ -1,4 +1,4 @@
-package model.domain.structures;
+package model.structures;
 
 public class Pila<T> {
     private Nodo<T> tope;

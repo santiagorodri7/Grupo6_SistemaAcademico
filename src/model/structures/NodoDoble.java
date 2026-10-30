@@ -1,4 +1,4 @@
-package model.domain.structures;
+package model.structures;
 
 public class NodoDoble<T> {
     private T dato;

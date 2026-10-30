@@ -3,7 +3,7 @@ package service;
 import model.domain.Calificacion;
 import model.domain.Materia;
 import model.domain.Matricula;
-import model.domain.structures.Pila;
+import model.structures.Pila;
 
 public class CalificacionService {
 

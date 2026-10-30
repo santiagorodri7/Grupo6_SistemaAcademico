@@ -1,5 +1,5 @@
 package model.domain;
-import model.domain.structures.Pila;
+import model.structures.Pila;
 
 public class Estudiante extends Persona {
     private String codigo;
