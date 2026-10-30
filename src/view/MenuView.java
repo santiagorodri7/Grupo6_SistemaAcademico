@@ -2,7 +2,7 @@ package view;
 
 import service.CalificacionService;
 import service.EstudianteService;
-import service.MatriculaService;
+import service.ProcesoMatricula;
 import service.ProfesorService;
 import utils.TypeValidator;
 
@@ -11,9 +11,9 @@ public class MenuView {
     private final TypeValidator typeValidator = new TypeValidator();
     private final EstudianteService estudianteService = new EstudianteService();
     private final ProfesorService profesorService = new ProfesorService();
-    private final MatriculaService matriculaService = new MatriculaService(estudianteService);
-    private final CalificacionService calificacionService = new CalificacionService(matriculaService);
-    private final MenuPilaView menuPilaView = new MenuPilaView(matriculaService, calificacionService);
+    private final ProcesoMatricula procesoMatricula = new ProcesoMatricula(estudianteService);
+    private final CalificacionService calificacionService = new CalificacionService(procesoMatricula);
+    private final MenuPilaView menuPilaView = new MenuPilaView(procesoMatricula, calificacionService);
     private final MenuColaView menuColaView = new MenuColaView(estudianteService);
 
     public void iniciar() {
