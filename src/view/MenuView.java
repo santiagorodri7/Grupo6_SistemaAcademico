@@ -2,6 +2,8 @@ package view;
 
 import service.CalificacionService;
 import service.EstudianteService;
+import service.MateriaService;
+import service.PlanService;
 import service.ProcesoMatricula;
 import service.ProfesorService;
 import utils.TypeValidator;
@@ -13,8 +15,12 @@ public class MenuView {
     private final ProfesorService profesorService = new ProfesorService();
     private final ProcesoMatricula procesoMatricula = new ProcesoMatricula(estudianteService);
     private final CalificacionService calificacionService = new CalificacionService(procesoMatricula);
+    // Orden de creación: MateriaService ANTES que PlanService (el plan se carga por código de materia)
+    private final MateriaService materiaService = new MateriaService();
+    private final PlanService planService = new PlanService(materiaService);
     private final MenuPilaView menuPilaView = new MenuPilaView(procesoMatricula, calificacionService);
     private final MenuColaView menuColaView = new MenuColaView(estudianteService);
+    private final MenuPlanView menuPlanView = new MenuPlanView(planService, materiaService);
 
     public void iniciar() {
         int opcion;
@@ -25,14 +31,15 @@ public class MenuView {
                 case 2 -> gestionarProfesores();
                 case 3 -> menuPilaView.iniciar();
                 case 4 -> menuColaView.iniciar();
+                case 5 -> menuPlanView.iniciar();
             }
         } while (opcion != 0);
     }
 
     private int mostrarMenuInicial() {
         String menu = " BIENVENIDO :D! \n Elija una opcion segun su necesidad \n "
-                + "1. gestionar estudiantes \n 2. gestionar profesores \n 3. gestionar calificaciones \n 4. menu de colas \n 0. salir";
-        return typeValidator.leerIntEnRango(0, 4, menu);
+                + "1. gestionar estudiantes \n 2. gestionar profesores \n 3. gestionar calificaciones \n 4. menu de colas \n 5. plan de estudios \n 0. salir";
+        return typeValidator.leerIntEnRango(0, 5, menu);
     }
 
     private void gestionarEstudiantes() {
