@@ -127,6 +127,18 @@ public class ListaDoble<T> {
         return eliminar(actual);
     }
 
+    public boolean haySeleccionado() {
+        return actual != null;
+    }
+
+    public boolean hayAnterior() {
+        return actual == null ? !isEmpty() : actual.getAnterior() != null;
+    }
+
+    public boolean haySiguiente() {
+        return actual == null ? !isEmpty() : actual.getSiguiente() != null;
+    }
+
     public String recorrerAdelante() {
         StringBuilder sb = new StringBuilder();
         NodoDoble<T> aux = head;
