@@ -2,34 +2,30 @@ package model.structures;
 
 public class NodoDoble<T> {
     private T dato;
-    private NodoDoble<T> siguiente;
     private NodoDoble<T> anterior;
+    private NodoDoble<T> siguiente;
 
     public NodoDoble(T dato) {
         this.dato = dato;
-        this.siguiente = null;
     }
+
     public T getDato() {
         return dato;
     }
-    public void setDato(T dato) {
-        this.dato = dato;
-    }
-    public NodoDoble<T> getSiguiente() {
-        return siguiente;
-    }
-    public void setSiguiente(NodoDoble<T> siguiente) {
-        this.siguiente = siguiente;
-    }
-    public void setAnterior(NodoDoble<T> anterior) {
-        this.anterior = anterior;
-    }
+
     public NodoDoble<T> getAnterior() {
         return anterior;
     }
-    public NodoDoble<T> setSiguiente() {
-        return anterior;
+
+    public void setAnterior(NodoDoble<T> n) {
+        this.anterior = n;
     }
 
-    
+    public NodoDoble<T> getSiguiente() {
+        return siguiente;
+    }
+
+    public void setSiguiente(NodoDoble<T> n) {
+        this.siguiente = n;
+    }
 }
