@@ -10,13 +10,13 @@ public class MateriaService {
     private final ArchivoService archivo = new ArchivoService("data/materias.txt");
 
     public MateriaService() {
-        // Se carga una sola vez, al crear el Service (crea data/materias.txt si no existe)
+
         cargarMaterias();
     }
 
     public void registrarMateria(String codigo, String nombre, int creditos) {
         materias.insertarFinal(new Materia(nombre, codigo, creditos));
-        guardarMaterias(); // guardado automático
+        guardarMaterias(); 
     }
 
     public Materia buscarMateria(String codigo) {
@@ -48,7 +48,6 @@ public class MateriaService {
         return sb.toString();
     }
 
-    // ---------------- Archivos ----------------
 
     public String guardarMaterias() {
         try {
@@ -66,14 +65,14 @@ public class MateriaService {
     }
 
     public String cargarMaterias() {
-        // Vaciar antes de leer: cargar dos veces no duplica
+      
         while (!materias.estaVacia()) {
             materias.eliminarInicio();
         }
 
         try {
             boolean existia = archivo.existe();
-            ListaSimple<String> lineas = archivo.leerLineas(); // crea el archivo si falta
+            ListaSimple<String> lineas = archivo.leerLineas(); 
             if (!existia) {
                 return "No existía " + archivo.getRuta() + "; se creó vacío y se inicia con la lista de materias vacía";
             }
@@ -81,7 +80,7 @@ public class MateriaService {
             for (int i = 0; i < lineas.getTamanio(); i++) {
                 String[] campos = lineas.buscarPorInidice(i).split(ArchivoService.SEPARADOR);
                 if (campos.length != 3) {
-                    continue; // campos de más o de menos: se omite
+                    continue; 
                 }
                 try {
                     String codigo = campos[0].trim();
@@ -92,7 +91,7 @@ public class MateriaService {
                     }
                     materias.insertarFinal(new Materia(nombre, codigo, creditos));
                 } catch (NumberFormatException e) {
-                    continue; // créditos mal escritos: se omite la línea
+                    continue; 
                 }
             }
         } catch (IOException e) {
