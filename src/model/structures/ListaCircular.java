@@ -1,4 +1,4 @@
-package model.domain.structures;
+package model.structures;
 public class ListaCircular<T> {
     private NodoDoble<T> head;   
     private NodoDoble<T> tail; 

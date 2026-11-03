@@ -1,4 +1,4 @@
-package model.domain.structures;
+package model.structures;
 import java.util.NoSuchElementException;
 
 public class Cola<T>{

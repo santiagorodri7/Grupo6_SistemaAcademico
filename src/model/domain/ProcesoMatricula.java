@@ -1,5 +1,5 @@
 package model.domain;
-import model.domain.structures.Cola;
+import model.structures.Cola;
 
 public class ProcesoMatricula {
     private String semestre;
