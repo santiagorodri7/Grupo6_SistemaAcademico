@@ -4,25 +4,18 @@ import model.domain.Materia;
 import model.domain.PlanDeEstudios;
 
 public class PlanService {
-
-    // Un solo plan por Service: si se creara uno nuevo en cada método,
-    // cada operación vería una lista distinta
-    // private final PlanDeEstudios plan = new PlanDeEstudios("Plan de estudios");
-    private final PlanDeEstudios plan = new PlanDeEstudios();
-
-    // El Service que ya gestiona las materias (se usa solo para validar que existan)
-    // private final MateriaService materiaService;
-    private final MatriculaService matriculaService;
+    // Un solo plan por Service: todas las operaciones ven la misma lista
+    private final PlanDeEstudios plan = new PlanDeEstudios("Plan de estudios");
+    private final MateriaService materiaService;
 
     public PlanService(MateriaService materiaService) {
         this.materiaService = materiaService;
     }
 
-    // registrarProducto -> agregarMateriaAlPlan
-    public void agregarMateriaAlPlan(String codigoMateria) {
-        Materia materia = materiaService.buscarMateria(codigoMateria); // ajuste al nombre real
+    public void registrarMateriaEnPlan(String codigoMateria) {
+        Materia materia = materiaService.buscarMateria(codigoMateria);
         if (materia == null) {
-            throw new IllegalArgumentException("No existe la materia " + codigoMateria);
+            throw new IllegalArgumentException("La materia no existe: " + codigoMateria);
         }
         plan.getMaterias().insertarAlFinal(materia);
     }
