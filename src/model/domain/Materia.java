@@ -29,6 +29,8 @@ public class Materia {
     public void setCreditos(int creditos) {
         this.creditos = creditos;
     }
-
-    
+    @Override
+public String toString() {
+    return codigo + " - " + nombre + " (" + creditos + " créditos)";
+}   
 }

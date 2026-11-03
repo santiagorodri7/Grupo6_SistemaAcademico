@@ -7,7 +7,7 @@ public class MateriaService {
     private final ListaSimple<Materia> materias = new ListaSimple<>();
 
     public void registrarMateria(String codigo, String nombre, int creditos) {
-        materias.insertarFinal(new Materia(codigo, nombre, creditos));
+        materias.insertarFinal(new Materia(nombre, codigo, creditos));
     }
 
     public Materia buscarMateria(String codigo) {
@@ -19,4 +19,8 @@ public class MateriaService {
         }
         return null;
     }
+    @Override
+public String toString() {
+    return codigo + " - " + nombre + " (" + creditos + " créditos)";
+}
 }
