@@ -3,8 +3,8 @@ package view;
 import service.CalificacionService;
 import service.EstudianteService;
 import service.MateriaService;
+import service.MatriculaService;
 import service.PlanService;
-import service.ProcesoMatricula;
 import service.ProfesorService;
 import utils.TypeValidator;
 
@@ -13,12 +13,11 @@ public class MenuView {
     private final TypeValidator typeValidator = new TypeValidator();
     private final EstudianteService estudianteService = new EstudianteService();
     private final ProfesorService profesorService = new ProfesorService();
-    private final ProcesoMatricula procesoMatricula = new ProcesoMatricula(estudianteService);
-    private final CalificacionService calificacionService = new CalificacionService(procesoMatricula);
-    // Orden de creación: MateriaService ANTES que PlanService (el plan se carga por código de materia)
+    private final MatriculaService matriculaService = new MatriculaService(estudianteService);
+    private final CalificacionService calificacionService = new CalificacionService(matriculaService);
     private final MateriaService materiaService = new MateriaService();
     private final PlanService planService = new PlanService(materiaService);
-    private final MenuPilaView menuPilaView = new MenuPilaView(procesoMatricula, calificacionService);
+    private final MenuPilaView menuPilaView = new MenuPilaView(matriculaService, calificacionService);
     private final MenuColaView menuColaView = new MenuColaView(estudianteService);
     private final MenuPlanView menuPlanView = new MenuPlanView(planService, materiaService);
 
