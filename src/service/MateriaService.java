@@ -18,13 +18,13 @@ public class MateriaService {
     private final ListaSimple<Materia> materias = new ListaSimple<>();
 
     public MateriaService() {
-        // Se carga una sola vez, al crear el Service
+      
         cargarMaterias();
     }
 
     public void registrarMateria(String codigo, String nombre, int creditos) {
         materias.insertarFinal(new Materia(nombre, codigo, creditos));
-        guardarMaterias(); // guardado automático
+        guardarMaterias(); 
     }
 
     public Materia buscarMateria(String codigo) {
@@ -59,9 +59,7 @@ public class MateriaService {
         return sb.toString();
     }
 
-    // ---------------- Archivos ----------------
 
-    // Crea la carpeta data/ y el archivo si no existen. Devuelve true si tuvo que crear el archivo.
     private boolean asegurarArchivo() throws IOException {
         File archivo = new File(ARCHIVO_MATERIAS);
         File carpeta = archivo.getParentFile();
@@ -78,7 +76,7 @@ public class MateriaService {
         try {
             asegurarArchivo();
 
-            // Un solo recorrido de la lista: una línea por materia (codigo;nombre;creditos)
+        
             try (BufferedWriter escritor = new BufferedWriter(new FileWriter(ARCHIVO_MATERIAS))) {
                 Nodo<Materia> nodo = materias.getHead();
                 while (nodo != null) {
@@ -96,7 +94,7 @@ public class MateriaService {
     }
 
     public String cargarMaterias() {
-        // Vaciar antes de leer: cargar dos veces no duplica
+   
         while (!materias.estaVacia()) {
             materias.eliminarInicio();
         }
@@ -111,7 +109,7 @@ public class MateriaService {
                 while ((linea = lector.readLine()) != null) {
                     String[] campos = linea.split(SEPARADOR);
                     if (campos.length != 3) {
-                        continue; // campos de más o de menos (o línea vacía): se omite
+                        continue;
                     }
                     try {
                         String codigo = campos[0].trim();
@@ -122,7 +120,7 @@ public class MateriaService {
                         }
                         materias.insertarFinal(new Materia(nombre, codigo, creditos));
                     } catch (NumberFormatException e) {
-                        continue; // créditos mal escritos: se omite la línea
+                        continue; 
                     }
                 }
             }
