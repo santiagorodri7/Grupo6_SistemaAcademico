@@ -15,12 +15,8 @@ import model.structures.NodoDoble;
 public class PlanService {
     private static final String ARCHIVO_PLAN = "data/plan.txt";
     private static final String SEPARADOR = ";";
-
-    // Un solo plan por Service: todas las operaciones ven la misma lista
     private final PlanDeEstudios plan = new PlanDeEstudios("Plan de estudios");
     private final MateriaService materiaService;
-
-    // MateriaService debe crearse ANTES: el plan se carga por código de materia
     public PlanService(MateriaService materiaService) {
         this.materiaService = materiaService;
         cargarPlan();
@@ -32,7 +28,7 @@ public class PlanService {
             throw new IllegalArgumentException("La materia no existe: " + codigoMateria);
         }
         plan.getMaterias().insertarAlFinal(materia);
-        guardarPlan(); // guardado automático
+        guardarPlan(); 
     }
 
     public boolean existeMateria(String codigoMateria) {
@@ -77,10 +73,10 @@ public class PlanService {
         return plan.getMaterias().siguiente();
     }
 
-    // Solo sale del plan; la materia sigue existiendo en MateriaService
+
     public Materia retirarMateriaDelPlan() {
         Materia retirada = plan.getMaterias().retirarActual();
-        guardarPlan(); // guardado automático
+        guardarPlan(); 
         return retirada;
     }
 
@@ -88,17 +84,16 @@ public class PlanService {
         return plan.getMaterias().size();
     }
 
-    // ---------------- Archivos ----------------
+
 
     private void escribirPlan() throws IOException {
-        // Crear la carpeta data/ si no existe
+
         File carpeta = new File(ARCHIVO_PLAN).getParentFile();
         if (carpeta != null) {
             carpeta.mkdirs();
         }
 
-        // Una línea por materia, del primero al último (recorriendo los nodos desde getHead):
-        // se escribe ADELANTE, si se guarda hacia atrás el archivo queda invertido al cargar
+
         StringBuilder texto = new StringBuilder();
         NodoDoble<Materia> nodo = plan.getMaterias().getHead();
         while (nodo != null) {
@@ -123,7 +118,7 @@ public class PlanService {
     public String cargarPlan() {
         File archivo = new File(ARCHIVO_PLAN);
 
-        // Dejar el plan vacío antes de leer: sin esto, cargar dos veces duplica las materias
+
         while (plan.getMaterias().getHead() != null) {
             plan.getMaterias().eliminar(plan.getMaterias().getHead());
         }
@@ -133,14 +128,14 @@ public class PlanService {
             while ((linea = lector.readLine()) != null) {
                 String[] campos = linea.split(SEPARADOR);
                 if (campos.length != 1) {
-                    continue; // campos de más o de menos: se omite la línea
+                    continue; 
                 }
-                // El plan guarda solo el código: la materia se busca en MateriaService
+
                 Materia materia = materiaService.buscarMateria(campos[0].trim());
                 if (materia == null) {
-                    continue; // la materia no existe: no se puede enlazar
+                    continue;
                 }
-                plan.getMaterias().insertarAlFinal(materia); // en el mismo orden del archivo
+                plan.getMaterias().insertarAlFinal(materia); 
             }
         } catch (FileNotFoundException e) {
             return "No existe " + ARCHIVO_PLAN + "; se inicia con el plan vacío";
