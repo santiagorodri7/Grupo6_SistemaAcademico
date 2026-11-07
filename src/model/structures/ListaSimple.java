@@ -81,7 +81,7 @@ public class ListaSimple<T> {
         if (estaVacia()) {
             throw new NoSuchElementException("No hay elementos para eliminar");
         }
-        head = head.getSiguiente(); // el segundo nodo pasa a ser el primero
+        head = head.getSiguiente(); 
         tamanio--;
     }
 
@@ -136,6 +136,9 @@ public class ListaSimple<T> {
 
     public boolean estaVacia() {
         return head == null;
+    }
+    public Nodo<T> getHead(){
+        return head;
     }
 
     
