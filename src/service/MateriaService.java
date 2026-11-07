@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import model.domain.Materia;
 import model.structures.ListaSimple;
+import model.structures.Nodo;
 
 public class MateriaService {
     private static final String ARCHIVO_MATERIAS = "data/materias.txt";
@@ -27,11 +28,12 @@ public class MateriaService {
     }
 
     public Materia buscarMateria(String codigo) {
-        for (int i = 0; i < materias.getTamanio(); i++) {
-            Materia m = materias.buscarPorInidice(i);
-            if (m.getCodigo().equals(codigo)) {
-                return m;
+        Nodo<Materia> nodo = materias.getHead();
+        while (nodo != null) {
+            if (nodo.getDato().getCodigo().equals(codigo)) {
+                return nodo.getDato();
             }
+            nodo = nodo.getSiguiente();
         }
         return null;
     }
@@ -49,8 +51,10 @@ public class MateriaService {
             return "No hay materias registradas";
         }
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < materias.getTamanio(); i++) {
-            sb.append(materias.buscarPorInidice(i)).append("\n");
+        Nodo<Materia> nodo = materias.getHead();
+        while (nodo != null) {
+            sb.append(nodo.getDato()).append("\n");
+            nodo = nodo.getSiguiente();
         }
         return sb.toString();
     }
@@ -74,17 +78,16 @@ public class MateriaService {
         try {
             asegurarArchivo();
 
-            // Una línea por materia: codigo;nombre;creditos
-            StringBuilder texto = new StringBuilder();
-            for (int i = 0; i < materias.getTamanio(); i++) {
-                Materia m = materias.buscarPorInidice(i);
-                texto.append(String.join(SEPARADOR,
-                        m.getCodigo(), m.getNombre(), String.valueOf(m.getCreditos())))
-                     .append("\n");
-            }
-
+            // Un solo recorrido de la lista: una línea por materia (codigo;nombre;creditos)
             try (BufferedWriter escritor = new BufferedWriter(new FileWriter(ARCHIVO_MATERIAS))) {
-                escritor.write(texto.toString());
+                Nodo<Materia> nodo = materias.getHead();
+                while (nodo != null) {
+                    Materia m = nodo.getDato();
+                    escritor.write(String.join(SEPARADOR,
+                            m.getCodigo(), m.getNombre(), String.valueOf(m.getCreditos())));
+                    escritor.newLine();
+                    nodo = nodo.getSiguiente();
+                }
             }
             return "Se guardaron " + materias.getTamanio() + " materias en " + ARCHIVO_MATERIAS;
         } catch (IOException e) {
@@ -106,18 +109,15 @@ public class MateriaService {
             try (BufferedReader lector = new BufferedReader(new FileReader(ARCHIVO_MATERIAS))) {
                 String linea;
                 while ((linea = lector.readLine()) != null) {
-                    if (linea.trim().isEmpty()) {
-                        continue;
-                    }
                     String[] campos = linea.split(SEPARADOR);
                     if (campos.length != 3) {
-                        continue; // campos de más o de menos: se omite
+                        continue; // campos de más o de menos (o línea vacía): se omite
                     }
                     try {
                         String codigo = campos[0].trim();
                         String nombre = campos[1].trim();
                         int creditos = Integer.parseInt(campos[2].trim());
-                        if (codigo.isEmpty() || nombre.isEmpty() || existeMateria(codigo)) {
+                        if (codigo.isEmpty() || nombre.isEmpty()) {
                             continue;
                         }
                         materias.insertarFinal(new Materia(nombre, codigo, creditos));
