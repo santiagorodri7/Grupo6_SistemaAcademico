@@ -1,17 +1,25 @@
 package service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import model.domain.Materia;
 import model.domain.PlanDeEstudios;
-import model.structures.ListaSimple;
 import model.structures.NodoDoble;
 
 public class PlanService {
+    private static final String ARCHIVO_PLAN = "data/plan.txt";
+    private static final String SEPARADOR = ";";
+
+    // Un solo plan por Service: todas las operaciones ven la misma lista
     private final PlanDeEstudios plan = new PlanDeEstudios("Plan de estudios");
     private final MateriaService materiaService;
-    private final ArchivoService archivo = new ArchivoService("data/plan.txt");
 
+    // MateriaService debe crearse ANTES: el plan se carga por código de materia
     public PlanService(MateriaService materiaService) {
         this.materiaService = materiaService;
         cargarPlan();
@@ -23,7 +31,7 @@ public class PlanService {
             throw new IllegalArgumentException("La materia no existe: " + codigoMateria);
         }
         plan.getMaterias().insertarAlFinal(materia);
-        guardarPlan(); 
+        guardarPlan(); // guardado automático
     }
 
     public boolean existeMateria(String codigoMateria) {
@@ -68,10 +76,10 @@ public class PlanService {
         return plan.getMaterias().siguiente();
     }
 
-
+    // Solo sale del plan; la materia sigue existiendo en MateriaService
     public Materia retirarMateriaDelPlan() {
         Materia retirada = plan.getMaterias().retirarActual();
-        guardarPlan(); 
+        guardarPlan(); // guardado automático
         return retirada;
     }
 
@@ -79,47 +87,69 @@ public class PlanService {
         return plan.getMaterias().size();
     }
 
+    // ---------------- Archivos ----------------
 
+    // Crea la carpeta data/ y el archivo si no existen. Devuelve true si tuvo que crear el archivo.
+    private boolean asegurarArchivo() throws IOException {
+        File archivo = new File(ARCHIVO_PLAN);
+        File carpeta = archivo.getParentFile();
+        if (carpeta != null && !carpeta.exists()) {
+            carpeta.mkdirs();
+        }
+        if (!archivo.exists()) {
+            return archivo.createNewFile();
+        }
+        return false;
+    }
 
     public String guardarPlan() {
         try {
-          
-            ListaSimple<String> lineas = new ListaSimple<>();
+            asegurarArchivo();
+
+            // Se escribe ADELANTE (head -> tail) para que el orden se conserve al cargar
+            StringBuilder texto = new StringBuilder();
             NodoDoble<Materia> nodo = plan.getMaterias().getHead();
             while (nodo != null) {
-                lineas.insertarFinal(nodo.getDato().getCodigo());
+                texto.append(nodo.getDato().getCodigo()).append("\n");
                 nodo = nodo.getSiguiente();
             }
-            archivo.escribirLineas(lineas);
-            return "Se guardaron " + plan.getMaterias().size() + " materias en " + archivo.getRuta();
+
+            try (BufferedWriter escritor = new BufferedWriter(new FileWriter(ARCHIVO_PLAN))) {
+                escritor.write(texto.toString());
+            }
+            return "Se guardaron " + plan.getMaterias().size() + " materias en " + ARCHIVO_PLAN;
         } catch (IOException e) {
             return "No se pudo guardar: " + e.getMessage();
         }
     }
 
     public String cargarPlan() {
-   
+        // Vaciar antes de leer: cargar dos veces no duplica
         while (plan.getMaterias().getHead() != null) {
             plan.getMaterias().eliminar(plan.getMaterias().getHead());
         }
 
         try {
-            boolean existia = archivo.existe();
-            ListaSimple<String> lineas = archivo.leerLineas(); 
-            if (!existia) {
-                return "No existía " + archivo.getRuta() + "; se creó vacío y se inicia con el plan vacío";
+            if (asegurarArchivo()) {
+                return "No existía " + ARCHIVO_PLAN + "; se creó vacío y se inicia con el plan vacío";
             }
 
-            for (int i = 0; i < lineas.getTamanio(); i++) {
-                String[] campos = lineas.buscarPorInidice(i).split(ArchivoService.SEPARADOR);
-                if (campos.length != 1) {
-                    continue; 
+            try (BufferedReader lector = new BufferedReader(new FileReader(ARCHIVO_PLAN))) {
+                String linea;
+                while ((linea = lector.readLine()) != null) {
+                    if (linea.trim().isEmpty()) {
+                        continue;
+                    }
+                    String[] campos = linea.split(SEPARADOR);
+                    if (campos.length != 1) {
+                        continue; // campos de más: se omite
+                    }
+                    Materia materia = materiaService.buscarMateria(campos[0].trim());
+                    if (materia == null) {
+                        continue; // la materia no existe: no se puede enlazar
+                    }
+                    plan.getMaterias().insertarAlFinal(materia); // mismo orden del archivo
                 }
-                Materia materia = materiaService.buscarMateria(campos[0].trim());
-                if (materia == null) {
-                    continue; 
-                }
-                plan.getMaterias().insertarAlFinal(materia); 
             }
         } catch (IOException e) {
             return "No se pudo leer: " + e.getMessage();
